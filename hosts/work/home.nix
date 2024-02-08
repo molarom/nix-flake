@@ -32,6 +32,7 @@
       nodePackages.pnpm
       nodejs_20
       pandoc
+      pgformatter
       postgresql_15
       python310
       ripgrep
