@@ -20,6 +20,7 @@
     '';
     stateVersion = "23.11"; 
     packages = with pkgs; [
+      actionlint
       awscli2
       flameshot
       gh
