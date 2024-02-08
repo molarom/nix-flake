@@ -24,19 +24,32 @@
       flameshot
       gh
       git
+      gnupg
+      go
       jq
-      nodejs_20
+      kubectl
+      kubernetes-helm
       nodePackages.pnpm
+      nodejs_20
       pandoc
       postgresql_15
       python310
       ripgrep
-      gnupg
       sops
       terraform
       trivy
+      unixtools.watch
       yarn
     ];
+  };
+
+  programs.ssh = {
+    enable = true;
+    extraOptionOverrides = {
+      AddKeysToAgent = "yes";
+      IdentitiesOnly = "yes";
+      UseKeychain = "yes";
+    };
   };
 
   programs.home-manager.enable = true;
