@@ -27,6 +27,7 @@
       git
       gnupg
       go
+      go-migrate
       jq
       kubectl
       kubernetes-helm
@@ -38,10 +39,12 @@
       python310
       ripgrep
       sops
+      synth
       terraform
       trivy
       unixtools.watch
       yarn
+      yq
     ];
   };
 
