@@ -33,6 +33,11 @@
      xsel
   ];
 
+  # Programs
+  programs = {
+    zsh.enable = true;
+  };
+
   # Fonts
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = ["Mononoki"]; })
@@ -89,8 +94,10 @@
     # Enable the Pantheon Desktop Environment.
     xserver = { 
       enable = true;
-      layout = "us";
-      xkbVariant = "";
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
       displayManager = {
         lightdm.enable = true;
       };
@@ -108,7 +115,7 @@
         };
       };
     };
- };
+  };
 
   # Add zsh to /etc/shells.
   environment.shells = with pkgs; [ zsh ];
