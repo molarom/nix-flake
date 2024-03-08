@@ -20,11 +20,6 @@
     ... 
   } @ inputs: let
     inherit (self) outputs;
-
-    # nixos
-    nixOSConfig = { pkgs, ... }: {
-      system = "x86_64-linux";
-    };
   
     # nix-darwin
     darwinConfig = { pkgs, ... }: {
@@ -37,7 +32,7 @@
       work-mbp = nix-darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [ 
-          darwinConfig
+           darwinConfig
           ./hosts/work/configuration.nix
         ];
       };
@@ -45,9 +40,9 @@
 
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
+         system = "x86_64-linux";
          specialArgs = {inherit inputs outputs;};
          modules = [
-          nixOSConfig 
           ./hosts/nixos/configuration.nix
         ];
       };
