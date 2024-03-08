@@ -1,7 +1,10 @@
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.tmux = {
-    enable = true; 
+    enable = true;
     shortcut = "a";
     baseIndex = 1;
     escapeTime = 0;

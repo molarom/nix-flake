@@ -1,6 +1,9 @@
-{ config, pkgs, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./neovim.nix
     ./tmux.nix
@@ -18,7 +21,7 @@
     file.".zshrc".text = ''
       autoload -U compinit && compinit
     '';
-    stateVersion = "23.11"; 
+    stateVersion = "23.11";
     packages = with pkgs; [
       actionlint
       awscli2

@@ -1,36 +1,37 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, inputs, outputs, ... }:
-
 {
-  imports =
-    [ 
-      inputs.home-manager.nixosModules.home-manager
+  config,
+  pkgs,
+  inputs,
+  outputs,
+  ...
+}: {
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
 
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Enable Flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # System packages
   environment.systemPackages = with pkgs; [
-     git
-     jq
-     neofetch
-     openssl
-     parallel
-     pcsctools
-     qemu
-     sshpass
-     xsel
+    git
+    jq
+    neofetch
+    openssl
+    parallel
+    pcsctools
+    qemu
+    sshpass
+    xsel
   ];
 
   # Programs
@@ -40,13 +41,13 @@
 
   # Fonts
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = ["Mononoki"]; })
+    (nerdfonts.override {fonts = ["Mononoki"];})
   ];
 
   users.users.bepperson = {
     isNormalUser = true;
     description = "Brandon";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     openssh.authorizedKeys.keys = [
     ];
     shell = pkgs.zsh;
@@ -54,7 +55,7 @@
 
   # Home Manager
   home-manager = {
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = {inherit inputs outputs;};
     users = {
       "bepperson" = import ./home.nix;
     };
@@ -87,12 +88,12 @@
     };
 
     # Enable CUPS to print documents.
-    printing = { 
+    printing = {
       enable = true;
     };
 
     # Enable the Pantheon Desktop Environment.
-    xserver = { 
+    xserver = {
       enable = true;
       xkb = {
         layout = "us";
@@ -105,9 +106,9 @@
         pantheon = {
           enable = true;
           extraGSettingsOverrides = ''
-          [io.elementary.terminal.settings]
-          font='Mononoki Nerd Font 10'
-          follow-last-tab=true
+            [io.elementary.terminal.settings]
+            font='Mononoki Nerd Font 10'
+            follow-last-tab=true
           '';
           extraGSettingsOverridePackages = [
             pkgs.pantheon.elementary-terminal
@@ -118,7 +119,7 @@
   };
 
   # Add zsh to /etc/shells.
-  environment.shells = with pkgs; [ zsh ];
+  environment.shells = with pkgs; [zsh];
 
   # Bootloader.
   boot.loader = {
@@ -127,9 +128,9 @@
   };
 
   # Networking
-  networking = { 
+  networking = {
     hostName = "nixos"; # Define your hostname.
-    networkmanager.enable = true;  
+    networkmanager.enable = true;
 
     # Open ports in the firewall.
     # firewall.allowedTCPPorts = [ 8001 ];
@@ -159,7 +160,7 @@
     };
   };
   console = {
-    packages = [ pkgs.terminus_font ];
+    packages = [pkgs.terminus_font];
     font = "${pkgs.terminus_font}/share/consolefonts/ter-i22b.psf.gz";
   };
 
@@ -170,5 +171,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }
