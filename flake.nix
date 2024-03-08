@@ -20,6 +20,11 @@
     ... 
   } @ inputs: let
     inherit (self) outputs;
+
+    # nixos
+    nixOSConfig = { pkgs, ... }: {
+      system = "x86_64-linux";
+    };
   
     # nix-darwin
     darwinConfig = { pkgs, ... }: {
@@ -37,6 +42,17 @@
         ];
       };
     };
+
+    nixosConfigurations = {
+      nixos = nixpkgs.lib.nixosSystem {
+         specialArgs = {inherit inputs outputs;};
+         modules = [
+          nixOSConfig 
+          ./hosts/nixos/configuration.nix
+        ];
+      };
+    };
+
 
     # Expose the package set, including overlays, for convenience.
     darwinPackages = self.darwinConfigurations."simple".pkgs;
