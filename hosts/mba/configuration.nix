@@ -9,16 +9,16 @@
     inputs.home-manager.darwinModules.home-manager
   ];
 
-  users.users.epp = {
-    name = "epp";
-    home = "/Users/epp";
+  users.users.molarom = {
+    name = "molarom";
+    home = "/Users/molarom";
   };
 
   # Home Manager
   home-manager = {
     extraSpecialArgs = {inherit inputs outputs;};
     users = {
-      "epp" = import ./home.nix;
+      "molarom" = import ../../home;
     };
   };
 
@@ -48,4 +48,3 @@
   # Necessary for using flakes on this system.
   nix.settings.experimental-features = "nix-command flakes";
 }
-
