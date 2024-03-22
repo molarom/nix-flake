@@ -35,6 +35,13 @@
           ./hosts/work/configuration.nix
         ];
       };
+      mba = nix-darwin.lib.darwinSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          darwinConfig
+          ./hosts/mba/configuration.nix
+        ];
+      };
     };
 
     nixosConfigurations = {
