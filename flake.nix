@@ -3,6 +3,19 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
+    };
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,6 +30,10 @@
     self,
     nix-darwin,
     nixpkgs,
+    nix-homebrew,
+    homebrew-core,
+    homebrew-cask,
+    homebrew-bundle,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -33,6 +50,20 @@
         modules = [
           darwinConfig
           ./hosts/work/configuration.nix
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              user = "brandon";
+              taps = {
+                "homebrew/homebrew-core" = homebrew-core;
+                "homebrew/homebrew-cask" = homebrew-cask;
+                "homebrew/homebrew-bundle" = homebrew-bundle;
+              };
+              autoMigrate = true;
+              mutableTaps = false;
+            };
+          }
         ];
       };
       mba = nix-darwin.lib.darwinSystem {

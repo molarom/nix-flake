@@ -133,7 +133,7 @@
     networkmanager.enable = true;
 
     # Open ports in the firewall.
-    # firewall.allowedTCPPorts = [ 8001 ];
+    firewall.allowedTCPPorts = [8080];
   };
 
   # Sound settings

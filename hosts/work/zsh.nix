@@ -6,6 +6,9 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    initExtra = ''
+      export PATH=$HOME/.krew/bin:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH
+    '';
     oh-my-zsh = {
       enable = true;
       plugins = [

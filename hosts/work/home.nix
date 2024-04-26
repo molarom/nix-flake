@@ -16,16 +16,18 @@
   };
 
   home = {
-    username = "bepperson";
-    homeDirectory = "/Users/bepperson";
+    username = "brandon";
+    homeDirectory = "/Users/brandon";
     file.".zshrc".text = ''
       autoload -U compinit && compinit
     '';
     stateVersion = "23.11";
     packages = with pkgs; [
       actionlint
+      ansible
       awscli2
       flameshot
+      fluxcd
       gh
       git
       gnupg
@@ -34,17 +36,27 @@
       jq
       kubectl
       kubernetes-helm
+      krew
+      kustomize
+      istioctl
       nodePackages.pnpm
       nodejs_20
+      packer
       pandoc
+      parallel
+      pass
       pgformatter
       postgresql_15
       python310
       ripgrep
+      sshuttle
       sops
-      synth
+      sqlc
       terraform
+      terragrunt
       trivy
+      turbo
+      typescript
       unixtools.watch
       yarn
       yq
@@ -56,7 +68,6 @@
     extraOptionOverrides = {
       AddKeysToAgent = "yes";
       IdentitiesOnly = "yes";
-      UseKeychain = "yes";
     };
   };
 

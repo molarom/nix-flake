@@ -9,16 +9,16 @@
     inputs.home-manager.darwinModules.home-manager
   ];
 
-  users.users.bepperson = {
-    name = "bepperson";
-    home = "/Users/bepperson";
+  users.users.brandon = {
+    name = "brandon";
+    home = "/Users/brandon";
   };
 
   # Home Manager
   home-manager = {
     extraSpecialArgs = {inherit inputs outputs;};
     users = {
-      "bepperson" = import ./home.nix;
+      "brandon" = import ./home.nix;
     };
   };
 
@@ -29,6 +29,18 @@
   fonts.fonts = with pkgs; [
     (nerdfonts.override {fonts = ["Mononoki"];})
   ];
+
+  homebrew = {
+    enable = true;
+    casks = [
+      "docker"
+    ];
+    brews = [
+      "qemu"
+      "podman"
+    ];
+    onActivation.cleanup = "zap";
+  };
 
   # System Packages
   environment.systemPackages = with pkgs; [
