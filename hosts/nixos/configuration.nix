@@ -9,17 +9,9 @@
   ...
 }: {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
-
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-
-  # Enable Flakes
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # System packages
   environment.systemPackages = with pkgs; [
@@ -31,12 +23,15 @@
     pcsctools
     qemu
     sshpass
+    virt-manager
+    virtio-win
     xsel
   ];
 
   # Programs
   programs = {
     zsh.enable = true;
+    virt-manager.enable = true;
   };
 
   # Fonts
@@ -54,12 +49,6 @@
   };
 
   # Home Manager
-  home-manager = {
-    extraSpecialArgs = {inherit inputs outputs;};
-    users = {
-      "bepperson" = import ./home.nix;
-    };
-  };
 
   # List services that you want to enable:
   services = {
@@ -162,6 +151,12 @@
   console = {
     packages = [pkgs.terminus_font];
     font = "${pkgs.terminus_font}/share/consolefonts/ter-i22b.psf.gz";
+  };
+
+  # Virtualisation settings
+  virtualisation = {
+    libvirtd.enable = true;
+    # vmware.host.enable = true;
   };
 
   # This value determines the NixOS release from which the default

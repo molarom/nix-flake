@@ -32,6 +32,7 @@
       gnumake
       go
       jq
+      pass
       ripgrep
       yq
     ];

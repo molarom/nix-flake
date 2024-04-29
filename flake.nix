@@ -42,6 +42,31 @@
     darwinConfig = {pkgs, ...}: {
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
+      # Nixpkgs
+      nixpkgs.hostPlatform = "aarch64-darwin";
+      # Auto upgrade nix package and the daemon service.
+      services.nix-daemon.enable = true;
+    };
+
+    nixConfig = {pkgs, ...}: {
+      # Nix options
+      nix = {
+        settings = {
+          # Enable Flakes
+          experimental-features = ["nix-command" "flakes"];
+          # Optimise nix store for every build.
+          auto-optimise-store = true;
+        };
+
+        # Setup automatic garbage collection.
+        gc = {
+          automatic = true;
+          dates = "weekly";
+          options = "--delete-older-than 14d";
+        };
+      };
+      # Allow unfree packages
+      nixpkgs.config.allowUnfree = true;
     };
   in {
     darwinConfigurations = {
@@ -49,6 +74,7 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           darwinConfig
+          nixConfig
           ./hosts/work/configuration.nix
           nix-homebrew.darwinModules.nix-homebrew
           {
@@ -71,6 +97,16 @@
         modules = [
           darwinConfig
           ./hosts/mba/configuration.nix
+          inputs.home-manager.nixosModules.home-manager
+          {
+            # Home Manager
+            home-manager = {
+              extraSpecialArgs = {inherit inputs outputs;};
+              users = {
+                "molarom" = import ../../home;
+              };
+            };
+          }
         ];
       };
     };
@@ -80,7 +116,17 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
+          nixConfig
           ./hosts/nixos/configuration.nix
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              extraSpecialArgs = {inherit inputs outputs;};
+              users = {
+                "bepperson" = import ./hosts/nixos/home.nix;
+              };
+            };
+          }
         ];
       };
     };
