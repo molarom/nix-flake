@@ -1,10 +1,9 @@
 {
   imports = [
-    ./apps.nix
-    ./git.nix
+    ./cli.nix
+    ./neovim.nix
     ./pass.nix
     ./tmux.nix
-    ./utils.nix
     ./zsh.nix
   ];
   nixpkgs = {
@@ -12,6 +11,8 @@
       allowUnfree = true;
     };
   };
+
+  home.stateVersion = "23.11";
 
   programs.home-manager.enable = true;
 }
