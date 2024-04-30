@@ -70,6 +70,7 @@
     };
   in {
     darwinConfigurations = {
+      # Work MBP
       work-mbp = nix-darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
@@ -100,6 +101,8 @@
           }
         ];
       };
+
+      # Personal MBA
       mba = nix-darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
@@ -118,6 +121,7 @@
       };
     };
 
+    # NixOS desktop
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -136,6 +140,8 @@
           }
         ];
       };
+
+      # Testing k3s on NixOS VMs.
       k8s = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
