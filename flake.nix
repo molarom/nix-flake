@@ -123,7 +123,7 @@
             home-manager = {
               extraSpecialArgs = {inherit inputs outputs;};
               users = {
-                "bepperson" = import ./hosts/nixos/home.nix;
+                "bepperson" = import ./home/linux;
               };
             };
           }

@@ -1,0 +1,7 @@
+{
+  imports = [
+    ../base
+
+    ./neovim.nix
+  ];
+}
