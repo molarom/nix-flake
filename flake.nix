@@ -105,7 +105,7 @@
         modules = [
           darwinConfig
           ./hosts/mba/configuration.nix
-          inputs.home-manager.nixosModules.home-manager
+          inputs.home-manager.darwinModules.home-manager
           {
             home-manager = {
               extraSpecialArgs = {inherit inputs outputs;};
