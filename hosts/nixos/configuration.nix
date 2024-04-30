@@ -44,6 +44,7 @@
     description = "Brandon";
     extraGroups = ["networkmanager" "wheel"];
     openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCtfZlG+Kvde5chORBhjFxo3H0yl1LKiC5QvyTWJyDT05RMV7d6WgUyMOdK3qbufKETLUq37Shs+nTyBQ9G5vCYT1aPe569R+gZf9u5365YvkOd1OJFFfQ3rtSpfIukqjtH4WF7x4d6/8/prepKt/lKefnRIJV9wZg4LpFyTyR9kR2hM/NodlZnQm05Gnckt2yj6XkCf5OF/u7kR7dbmJ6pzQzW+pGyYdPm0PHtJ/U2XN/NjYaLTYjI1gs59QsS0ab159LpuZlDhMFeBrJ2OJQy29IMWxwDu9tf+pwCtFFJlqGpu6TqBmpn9mH/P/9lkYcVGjN/HUFhv2q7c34CLvU8SRBR2fn9V+bfRT14z+o6ZXn+OohdMNlJtlbm5+RdnAxFq5XKWDjS5yVfQJaNPziyeQJBl5krqUdaumjCNvoVVEUy86HwF02y1iVm5Xyfk0OermfNjQmHLMwKVNyamEOWV6hY48gKVE/4mgnaXOTFJDrdA/JxcBQY7MsBapFCql/aaUDgmtjltNMzIbQxVdISZvH1xMlRQTetMnTk/ipVJWMAvOtoacJoeou0wh2nsqOrpadQDuSN9vR2ILK7h2g/eJwN/X/XeAx2aMOzGUSGnetSxs+CJPmZ0WVSyKu+9KqR7Zl2WBeKztSUmgXiDCjX6JVycrzLPHz++PsuLbJj1w== molarom@mba"
     ];
     shell = pkgs.zsh;
   };
@@ -122,7 +123,10 @@
     networkmanager.enable = true;
 
     # Open ports in the firewall.
-    firewall.allowedTCPPorts = [8080];
+    firewall.allowedTCPPorts = [
+      22
+      8080
+    ];
   };
 
   # Sound settings

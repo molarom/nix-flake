@@ -129,6 +129,14 @@
           }
         ];
       };
+      k8s = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          nixConfig
+          ./hosts/k8s/configuration.nix
+        ];
+      };
     };
 
     # Expose the package set, including overlays, for convenience.
