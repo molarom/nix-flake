@@ -1,0 +1,47 @@
+{
+  lib,
+  pkgs,
+  ...
+}: {
+  home = {
+    packages = with pkgs; [
+      actionlint
+      ansible
+      awscli2
+      flameshot
+      fluxcd
+      gh
+      git
+      gnupg
+      go
+      go-migrate
+      jq
+      kubectl
+      kubernetes-helm
+      krew
+      kustomize
+      istioctl
+      nodePackages.pnpm
+      nodejs_20
+      packer
+      pandoc
+      parallel
+      pass
+      pgformatter
+      postgresql_15
+      python310
+      ripgrep
+      sshuttle
+      sops
+      sqlc
+      terraform
+      terragrunt
+      trivy
+      turbo
+      typescript
+      unixtools.watch
+      yarn
+      yq
+    ];
+  };
+}

@@ -90,6 +90,14 @@
               mutableTaps = false;
             };
           }
+          {
+            home-manager = {
+              extraSpecialArgs = {inherit inputs outputs;};
+              users = {
+                "brandon" = import ./home/work;
+              };
+            };
+          }
         ];
       };
       mba = nix-darwin.lib.darwinSystem {
@@ -99,11 +107,10 @@
           ./hosts/mba/configuration.nix
           inputs.home-manager.nixosModules.home-manager
           {
-            # Home Manager
             home-manager = {
               extraSpecialArgs = {inherit inputs outputs;};
               users = {
-                "molarom" = import ../../home;
+                "molarom" = import ./home/darwin;
               };
             };
           }
