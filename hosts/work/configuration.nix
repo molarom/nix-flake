@@ -11,6 +11,7 @@
   fonts.fonts = with pkgs; [
     (nerdfonts.override {fonts = ["Mononoki"];})
   ];
+
   # System Packages
   environment.systemPackages = with pkgs; [
     kind

@@ -97,13 +97,9 @@
         modules = [
           ./modules/base.nix
           ./hosts/k8s/configuration.nix
-          {
-            virtualisation.vmVariant.virtualisation.host.pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-          }
         ];
       };
     };
-    packages.aarch64-darwin.k8s = self.nixosConfigurations.k8s.config.system.build.vm;
 
     # Expose the package set, including overlays, for convenience.
     darwinPackages = self.darwinConfigurations."simple".pkgs;

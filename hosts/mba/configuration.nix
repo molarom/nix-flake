@@ -11,7 +11,10 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
+<<<<<<< HEAD
     dnsmasq
+=======
+>>>>>>> edad7f2 (add: vm hardware-conf)
     qemu
   ];
 
