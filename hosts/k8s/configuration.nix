@@ -1,6 +1,6 @@
 {
-  lib,
   pkgs,
+  lib,
   ...
 }: {
   imports = [
@@ -23,7 +23,6 @@
     };
   };
 
-<<<<<<< HEAD
   boot = {
     zfs.devNodes = "/dev/disk/by-partuuid";
     loader.grub = {
@@ -62,30 +61,11 @@
     zfs = {
       autoScrub.enable = true;
     };
-=======
-  services = {
-    k3s = {
-      enable = true;
-      role = "server";
-      token = "justadevtoken";
-      extraFlags = lib.concatStringsSep " " [
-        "--flannel-backend=none"
-        "--disable-network-policy"
-        "--disable-kube-proxy"
-        "--disable=traefik"
-        "--disable=servicelb"
-      ];
-    };
-    openssh = {
-      enable = true;
-    };
->>>>>>> edad7f2 (add: vm hardware-conf)
   };
 
   # Networking
   networking = {
     hostName = "amaterasu";
-<<<<<<< HEAD
     hostId = "4e98920d";
     networkmanager.enable = true;
 
@@ -103,17 +83,6 @@
         51820
       ];
     };
-=======
-    networkmanager.enable = true;
-
-    # Open ports in the firewall.
-    firewall.allowedTCPPorts = [
-      22
-      2379
-      2380
-      6443
-    ];
->>>>>>> edad7f2 (add: vm hardware-conf)
   };
   environment.systemPackages = with pkgs; [
     calicoctl
@@ -123,7 +92,6 @@
     wireguard-tools
   ];
 
-<<<<<<< HEAD
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -150,8 +118,6 @@
     };
   };
 
-=======
->>>>>>> edad7f2 (add: vm hardware-conf)
   # Time zone
   time.timeZone = "America/New_York";
 
