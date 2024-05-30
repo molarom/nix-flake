@@ -1,9 +1,6 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   programs.neovim.extraPackages = with pkgs; [
+    actionlint
     alejandra # Nix formatter
     clang-tools
     delve

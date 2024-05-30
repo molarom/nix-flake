@@ -1,10 +1,4 @@
-{
-  config,
-  pkgs,
-  inputs,
-  outputs,
-  ...
-}: {
+{pkgs, ...}: {
   users.users.molarom = {
     name = "molarom";
     home = "/Users/molarom";
@@ -17,9 +11,15 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
+    dnsmasq
+    qemu
   ];
 
-  # nix.package = pkgs.nix;
+  services = {
+    dnsmasq = {
+      enable = true;
+    };
+  };
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true;

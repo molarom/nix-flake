@@ -1,11 +1,6 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home = {
     packages = with pkgs; [
-      actionlint
       ansible
       awscli2
       flameshot
@@ -15,6 +10,9 @@
       gnupg
       go
       go-migrate
+      go-swag
+      gofumpt
+      golangci-lint
       jq
       kubectl
       kubernetes-helm
@@ -36,6 +34,7 @@
       sqlc
       terraform
       terragrunt
+      tree
       trivy
       turbo
       typescript

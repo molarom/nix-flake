@@ -3,19 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,43 +17,18 @@
     self,
     nix-darwin,
     nixpkgs,
-    nix-homebrew,
-    homebrew-core,
-    homebrew-cask,
-    homebrew-bundle,
     ...
   } @ inputs: let
     inherit (self) outputs;
 
     # nix-darwin
-    darwinConfig = {...}: {
+    darwinConfig = {
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
       # Nixpkgs
       nixpkgs.hostPlatform = "aarch64-darwin";
       # Auto upgrade nix package and the daemon service.
       services.nix-daemon.enable = true;
-    };
-
-    nixConfig = {...}: {
-      # Nix options
-      nix = {
-        settings = {
-          # Enable Flakes
-          experimental-features = ["nix-command" "flakes"];
-          # Optimise nix store for every build.
-          auto-optimise-store = true;
-        };
-
-        # Setup automatic garbage collection.
-        gc = {
-          automatic = true;
-          dates = "weekly";
-          options = "--delete-older-than 7d";
-        };
-      };
-      # Allow unfree packages
-      nixpkgs.config.allowUnfree = true;
     };
   in {
     darwinConfigurations = {
@@ -75,22 +37,8 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           darwinConfig
-          nixConfig
           ./hosts/work/configuration.nix
-          nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              user = "brandon";
-              taps = {
-                "homebrew/homebrew-core" = homebrew-core;
-                "homebrew/homebrew-cask" = homebrew-cask;
-                "homebrew/homebrew-bundle" = homebrew-bundle;
-              };
-              autoMigrate = true;
-              mutableTaps = false;
-            };
-          }
+          inputs.home-manager.darwinModules.home-manager
           {
             home-manager = {
               extraSpecialArgs = {inherit inputs outputs;};
@@ -107,6 +55,7 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           darwinConfig
+          ./modules/base.nix
           ./hosts/mba/configuration.nix
           inputs.home-manager.darwinModules.home-manager
           {
@@ -127,7 +76,7 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          nixConfig
+          ./modules/base.nix
           ./hosts/nixos/configuration.nix
           inputs.home-manager.nixosModules.home-manager
           {
@@ -142,11 +91,11 @@
       };
 
       # Testing k3s on NixOS VMs.
-      k8s = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      amaterasu = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          nixConfig
+          ./modules/base.nix
           ./hosts/k8s/configuration.nix
         ];
       };
