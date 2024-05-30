@@ -1,8 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home = {
     packages = with pkgs; [
       cmake
@@ -10,6 +6,7 @@
       gcc
       gnumake
       go
+      spotify
     ];
   };
 }

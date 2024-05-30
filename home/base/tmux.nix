@@ -1,24 +1,20 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     tmux
   ];
 
   programs.tmux = {
     enable = true;
+    shell = "${pkgs.zsh}/bin/zsh";
     shortcut = "a";
     baseIndex = 1;
-    escapeTime = 0;
+    escapeTime = 1;
 
     plugins = with pkgs; [
       tmuxPlugins.yank
     ];
 
     extraConfig = ''
-      set-option -g default-shell ${pkgs.zsh}/bin/zsh
       # split panes using | and -, make sure they open in the same path
       bind | split-window -h -c "#{pane_current_path}"
       bind - split-window -v -c "#{pane_current_path}"
@@ -29,14 +25,8 @@
       # open new windows in the current path
       bind c new-window -c "#{pane_current_path}"
 
-      # reload config file
-      bind r source-file /etc/tmux.conf
-
       unbind p
       bind p previous-window
-
-      # shorten command delay
-      set -sg escape-time 1
 
       # don't rename windows automatically
       set -g allow-rename off
@@ -57,7 +47,6 @@
       bind u capture-pane \;\
         save-buffer /tmp/tmux-buffer \;\
         split-window -l 10 "urlview /tmp/tmux-buffer"
-
 
       ######################
       ### DESIGN CHANGES ###

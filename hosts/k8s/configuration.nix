@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   users.groups.admin = {};
   users.users = {
     admin = {
@@ -30,16 +25,17 @@
 
   # Networking
   networking = {
-    hostName = "k8s"; # Define your hostname.
-    networkmanager.enable = true;
+    hostName = "k8s-master-1"; # Define your hostname.
+    #networkmanager.enable = true;
 
-    # Open ports in the firewall.
-    firewall.allowedTCPPorts = [
-      22
-    ];
+    ## Open ports in the firewall.
+    #firewall.allowedTCPPorts = [
+    #  22
+    #  2379-2380
+    #];
   };
   environment.systemPackages = with pkgs; [
-    htop
+    k3s
   ];
 
   system.stateVersion = "23.05";

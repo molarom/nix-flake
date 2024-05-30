@@ -1,29 +1,26 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  pkgs,
-  inputs,
-  outputs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    #./k3s.nix
   ];
 
   # System packages
   environment.systemPackages = with pkgs; [
     git
     jq
+    docker
+    docker-compose
+    gnupg
     neofetch
     openssl
     parallel
     pcsctools
     qemu
     sshpass
-    virt-manager
     virtio-win
     xsel
   ];
@@ -31,7 +28,10 @@
   # Programs
   programs = {
     zsh.enable = true;
-    virt-manager.enable = true;
+    gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
   };
 
   # Fonts
@@ -43,13 +43,8 @@
     isNormalUser = true;
     description = "Brandon";
     extraGroups = ["networkmanager" "wheel"];
-    openssh.authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCtfZlG+Kvde5chORBhjFxo3H0yl1LKiC5QvyTWJyDT05RMV7d6WgUyMOdK3qbufKETLUq37Shs+nTyBQ9G5vCYT1aPe569R+gZf9u5365YvkOd1OJFFfQ3rtSpfIukqjtH4WF7x4d6/8/prepKt/lKefnRIJV9wZg4LpFyTyR9kR2hM/NodlZnQm05Gnckt2yj6XkCf5OF/u7kR7dbmJ6pzQzW+pGyYdPm0PHtJ/U2XN/NjYaLTYjI1gs59QsS0ab159LpuZlDhMFeBrJ2OJQy29IMWxwDu9tf+pwCtFFJlqGpu6TqBmpn9mH/P/9lkYcVGjN/HUFhv2q7c34CLvU8SRBR2fn9V+bfRT14z+o6ZXn+OohdMNlJtlbm5+RdnAxFq5XKWDjS5yVfQJaNPziyeQJBl5krqUdaumjCNvoVVEUy86HwF02y1iVm5Xyfk0OermfNjQmHLMwKVNyamEOWV6hY48gKVE/4mgnaXOTFJDrdA/JxcBQY7MsBapFCql/aaUDgmtjltNMzIbQxVdISZvH1xMlRQTetMnTk/ipVJWMAvOtoacJoeou0wh2nsqOrpadQDuSN9vR2ILK7h2g/eJwN/X/XeAx2aMOzGUSGnetSxs+CJPmZ0WVSyKu+9KqR7Zl2WBeKztSUmgXiDCjX6JVycrzLPHz++PsuLbJj1w== molarom@mba"
-    ];
     shell = pkgs.zsh;
   };
-
-  # Home Manager
 
   # List services that you want to enable:
   services = {
@@ -113,7 +108,12 @@
 
   # Bootloader.
   boot.loader = {
-    systemd-boot.enable = true;
+    systemd-boot = {
+      enable = true;
+
+      # Limit the generations to keep.
+      configurationLimit = 10;
+    };
     efi.canTouchEfiVariables = true;
   };
 
@@ -125,6 +125,7 @@
     # Open ports in the firewall.
     firewall.allowedTCPPorts = [
       22
+      6443 # k3s: required so that pods can reach the API server (running on port 6443 by default)
       8080
     ];
   };
@@ -159,6 +160,10 @@
 
   # Virtualisation settings
   virtualisation = {
+    docker.rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
     libvirtd.enable = true;
     # vmware.host.enable = true;
   };

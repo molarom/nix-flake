@@ -3,5 +3,6 @@
     ../base
 
     ./neovim.nix
+    ./packages.nix
   ];
 }

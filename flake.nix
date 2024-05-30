@@ -39,7 +39,7 @@
     inherit (self) outputs;
 
     # nix-darwin
-    darwinConfig = {pkgs, ...}: {
+    darwinConfig = {...}: {
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
       # Nixpkgs
@@ -48,7 +48,7 @@
       services.nix-daemon.enable = true;
     };
 
-    nixConfig = {pkgs, ...}: {
+    nixConfig = {...}: {
       # Nix options
       nix = {
         settings = {
@@ -62,7 +62,7 @@
         gc = {
           automatic = true;
           dates = "weekly";
-          options = "--delete-older-than 14d";
+          options = "--delete-older-than 7d";
         };
       };
       # Allow unfree packages
