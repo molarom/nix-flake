@@ -17,6 +17,20 @@
     kind
   ];
 
+  # Homebrew programs
+  homebrew = {
+    enable = true;
+    global = {
+      autoUpdate = true;
+    };
+    onActivation.cleanup = "zap";
+
+    casks = [
+      "docker"
+      "iterm2"
+    ];
+  };
+
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;

@@ -1,8 +1,23 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  expvarmon = pkgs.buildGoModule {
+    pname = "expvarmon";
+    version = "latest";
+
+    src = pkgs.fetchFromGitHub {
+      owner = "divan";
+      repo = "expvarmon";
+      rev = "8e0b3d2";
+      hash = "sha-256-+dOnks3dUOLrUmV31bwmRAC3SHm1hHO/wabB9IEa0M=";
+    };
+
+    vendorHash = null;
+  };
+in {
   home = {
     packages = with pkgs; [
       ansible
       awscli2
+      expvarmon
       flameshot
       fluxcd
       gh

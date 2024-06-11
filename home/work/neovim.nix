@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+  home.file."./.local/share/nvim/lazy/nvim-treesitter/" = {
+    recursive = true;
+    source = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+  };
   programs.neovim.extraPackages = with pkgs; [
     actionlint
     alejandra # Nix formatter
