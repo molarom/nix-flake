@@ -7,7 +7,7 @@
       owner = "divan";
       repo = "expvarmon";
       rev = "8e0b3d2";
-      hash = "sha-256-+dOnks3dUOLrUmV31bwmRAC3SHm1hHO/wabB9IEa0M=";
+      hash = "sha256-+dOnks3dUOLrUmV31bwmRAC3SHm1hHO/wabB9IEa0M=";
     };
 
     vendorHash = null;

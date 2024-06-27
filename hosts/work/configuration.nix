@@ -8,9 +8,12 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   # Fonts
-  fonts.fonts = with pkgs; [
-    (nerdfonts.override {fonts = ["Mononoki"];})
-  ];
+  fonts = {
+    fontDir.enable = true;
+    fonts = with pkgs; [
+      (nerdfonts.override {fonts = ["Mononoki"];})
+    ];
+  };
 
   # System Packages
   environment.systemPackages = with pkgs; [

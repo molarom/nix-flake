@@ -37,6 +37,7 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           darwinConfig
+          ./modules/base.nix
           ./hosts/work/configuration.nix
           inputs.home-manager.darwinModules.home-manager
           {
