@@ -42,12 +42,12 @@ in {
     ];
   };
 
-  home.file."./config/nvim/" = {
+  home.file."./.config/nvim/" = {
     source = ./nvim;
     recursive = true;
   };
 
-  home.file."./config/nvim/init.lua".text = ''
+  home.file."./.config/nvim/init.lua".text = ''
     local csName = "tokyonight"
 
     require("config")
@@ -60,7 +60,7 @@ in {
       vim.cmd.colorscheme(csName)
     end
 
-    vim.opt.runtimepath:append("${treesitter-parsers}"})
+    vim.opt.runtimepath:append("${treesitter-parsers}")
   '';
 
   home.file."./.local/share/nvim/nix/nvim-treesitter/" = {

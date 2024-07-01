@@ -11,7 +11,6 @@ return {
     "nvimtools/none-ls.nvim",
     event = "VeryLazy",
     dependencies = {
-      { "williamboman/mason.nvim" },
       { "nvim-lua/plenary.nvim" },
     },
     config = function()
