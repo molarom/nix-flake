@@ -4,7 +4,7 @@
   ];
   programs.neovim = {
     enable = true;
-    extraTSParsers = with pkgs.vimPlugins.nvim-treesitter-parsers; [
+    extraTSParsers = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
       css
       hcl
       javascript
