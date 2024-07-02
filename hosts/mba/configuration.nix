@@ -15,6 +15,20 @@
     qemu
   ];
 
+  homebrew = {
+    enable = true;
+    global = {
+      autoUpdate = true;
+    };
+    onActivation.cleanup = "zap";
+
+    casks = [
+      "docker"
+      "discord"
+      "spotify"
+    ];
+  };
+
   services = {
     dnsmasq = {
       enable = true;

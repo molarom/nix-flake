@@ -2,7 +2,7 @@
   imports = [
     ../base
 
-    ./apps.nix
+    ./alacritty.nix
     ./neovim.nix
   ];
 }

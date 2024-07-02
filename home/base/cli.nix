@@ -1,8 +1,4 @@
-{
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # General utility programs I use.
   home.packages = with pkgs; [
     flameshot
