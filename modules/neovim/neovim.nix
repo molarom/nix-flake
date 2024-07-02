@@ -3,8 +3,7 @@
   config,
   pkgs,
   ...
-}:
-with lib; let
+}: let
   cfg = config.programs.neovim;
 
   treesitterWithGrammars = pkgs.vimPlugins.nvim-treesitter.withPlugins (
@@ -29,69 +28,70 @@ with lib; let
         p.vimdoc
         p.yaml
       ]
-      // cfg.extraTSParsers
+      ++ cfg.extraTSParsers
   );
 
-  treesitter-parsers = lib.symlinkJoin {
+  treesitter-parsers = pkgs.symlinkJoin {
     name = "treesitter-parsers";
-    paths = cfg.treesitterWithGrammars.dependencies;
-  };
-
-  lib.file."./.config/nvim/" = {
-    source = ./nvim;
-    recursive = true;
-  };
-
-  lib.file."./.local/share/nvim/nix/nvim-treesitter/" = {
-    source = cfg.treesitterWithGrammars;
-    recursive = true;
-  };
-
-  lib.file."./.config/nvim/init.lua" = {
-    inherit cfg;
-    text = ''
-      local csName = "tokyonight"
-
-      require("config")
-      require("plugin-loader")
-
-      local ok, _ = pcall(require, "plugins.themes." .. csName)
-      if(not ok) then
-        error("Unable to load theme: " .. csName .. " double check the lua/plugins/themes module.")
-      else
-        vim.cmd.colorscheme(csName)
-      end
-
-      vim.opt.runtimepath:append("${treesitter-parsers}")
-    '';
+    paths = treesitterWithGrammars.dependencies;
   };
 in {
+  config = {
+    home.file."./.config/nvim/" = {
+      source = ./nvim;
+      recursive = true;
+    };
+
+    home.file."./.local/share/nvim/nix/nvim-treesitter/" = {
+      source = treesitterWithGrammars;
+      recursive = true;
+    };
+
+    home.file."./.config/nvim/init.lua" = {
+      text = ''
+        local csName = "tokyonight"
+
+        require("config")
+        require("plugin-loader")
+
+        local ok, _ = pcall(require, "plugins.themes." .. csName)
+        if(not ok) then
+          error("Unable to load theme: " .. csName .. " double check the lua/plugins/themes module.")
+        else
+          vim.cmd.colorscheme(csName)
+        end
+
+        vim.opt.runtimepath:append("${treesitter-parsers}")
+      '';
+    };
+  };
   options.programs.neovim = {
-    addtionalLSPs = mkOption {
-      type = types.listOf types.package;
+    additionalLSPs = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
+      default = [];
       description = "additional packages to install, typically LSPs";
     };
 
-    extraTSParsers = mkOption {
-      type = types.listOf types.package;
+    extraTSParsers = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
       description = "addtional treesitter parsers to install";
     };
   };
-  config.programs.neovim = mkIf cfg.enable {
+  config.programs.neovim = lib.mkIf cfg.enable {
     extraPackages =
       [
-        alejandra # Nix formatter
-        clang-tools
-        delve
-        fzf
-        gopls
-        gofumpt
-        goimports-reviser
-        lua-language-server
-        lldb
-        nixd # Nix lauguage server
+        pkgs.alejandra # Nix formatter
+        pkgs.clang-tools
+        pkgs.delve
+        pkgs.fzf
+        pkgs.gopls
+        pkgs.gofumpt
+        pkgs.goimports-reviser
+        pkgs.lua-language-server
+        pkgs.lldb
+        pkgs.nixd # Nix lauguage server
       ]
-      // cfg.additionalLSPs;
+      ++ cfg.additionalLSPs;
     plugins = [
       treesitterWithGrammars
     ];
