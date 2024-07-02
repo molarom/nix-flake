@@ -1,6 +1,12 @@
-{pkgs, ...}: let
+{pkgs, ...}: {
   imports = [
-    (mod "../../modules/neovim")
+    ../../modules/neovim/neovim.nix
   ];
-in {
+
+  programs.neovim = {
+    enable = true;
+    extraTSParsers = with pkgs.vimPlugins.nvim-treesitter-parsers; [
+      ruby
+    ];
+  };
 }

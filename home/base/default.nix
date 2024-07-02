@@ -1,7 +1,7 @@
 {
   imports = [
     ./cli.nix
-    ./neovim.nix
+    #./neovim.nix
     ./pass.nix
     ./tmux.nix
     ./zsh.nix
