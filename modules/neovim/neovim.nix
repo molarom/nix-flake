@@ -97,4 +97,3 @@ in {
     ];
   };
 }
-#vim.opt.runtimepath:append("${(.file.mkOutOfStoreSymlink {source = cfg.treesitterWithGrammars.dependencies;})}")
