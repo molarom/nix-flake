@@ -13,8 +13,17 @@
       terraform
       typescript
     ];
-    addtionalLSPs = with pkgs; [
+    additionalPackages = with pkgs; [
+      black 
       nodePackages.typescript-language-server
+      pgformatter
+    ];
+    lspConfig = [
+      "lspconfig.tsserver.setup{}"
+    ];
+    nullLsSources = [
+      "null_ls.builtins.formatting.black,"
+      "null_ls.builtins.formatting.pg_format,"
     ];
   };
 }

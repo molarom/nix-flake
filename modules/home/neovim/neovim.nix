@@ -72,136 +72,129 @@ in {
         vim.opt.runtimepath:append("${treesitter-parsers}")
       '';
     };
-  };
 
-  home.file."./.config/nvim/lsp-testing.lua" = {
-    text = ''
-      -- LSP configs
-      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+    home.file."./.config/nvim/lua/plugins/lsp.lua" = {
+      text = ''
+        -- LSP configs
+        local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-      return {
-        {
-          'williamboman/mason.nvim',
-          lazy = false,
-          config = true,
-        },
-        {
-          "nvimtools/none-ls.nvim",
-          event = "VeryLazy",
-          dependencies = {
-            { "nvim-lua/plenary.nvim" },
-          },
-          config = function()
-            local null_ls = require("null-ls")
-            null_ls.setup({
-              sources = {
-                null_ls.builtins.formatting.clang_format,
-                null_ls.builtins.formatting.gofumpt,
-                null_ls.builtins.formatting.goimports_reviser,
-                null_ls.builtins.formatting.alejandra,
-                ${cfg.nullLsSetup}
-              },
-              on_attach = function(client, bufnr)
-                if client.supports_method("textDocument/formatting") then
-                  vim.api.nvim_clear_autocmds({
-                    group = augroup,
-                    buffer = bufnr,
-                  })
-                  vim.api.nvim_create_autocmd("BufWritePre", {
-                    group = augroup,
-                    buffer = bufnr,
-                    callback = function()
-                      vim.lsp.buf.format({ bufnr = bufnr })
-                    end,
-                  })
+        return {
+          {
+            "nvimtools/none-ls.nvim",
+            event = "VeryLazy",
+            dependencies = {
+              { "nvim-lua/plenary.nvim" },
+            },
+            config = function()
+              local null_ls = require("null-ls")
+              null_ls.setup({
+                sources = {
+                  null_ls.builtins.formatting.clang_format,
+                  null_ls.builtins.formatting.gofumpt,
+                  null_ls.builtins.formatting.goimports_reviser,
+                  null_ls.builtins.formatting.alejandra,
+                  ${(lib.concatStringsSep "\n" cfg.nullLsSources)}
+                },
+                on_attach = function(client, bufnr)
+                  if client.supports_method("textDocument/formatting") then
+                    vim.api.nvim_clear_autocmds({
+                      group = augroup,
+                      buffer = bufnr,
+                    })
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                      group = augroup,
+                      buffer = bufnr,
+                      callback = function()
+                        vim.lsp.buf.format({ bufnr = bufnr })
+                      end,
+                    })
+                  end
                 end
-              end
-            })
-          end,
-        },
-        {
-          'neovim/nvim-lspconfig',
-          cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
-          event = { 'BufReadPre', 'BufNewFile' },
-          dependencies = {
-            { 'hrsh7th/cmp-nvim-lsp' },
-            { 'williamboman/mason-lspconfig.nvim' },
-            { 'jay-babu/mason-null-ls.nvim' },
-            { 'nvimtools/none-ls.nvim' },
+              })
+            end,
           },
-          config = function()
-            local lspconfig = require("lspconfig")
+          {
+            'neovim/nvim-lspconfig',
+            cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
+            event = { 'BufReadPre', 'BufNewFile' },
+            dependencies = {
+              { 'hrsh7th/cmp-nvim-lsp' },
+              { 'nvimtools/none-ls.nvim' },
+            },
+            config = function()
+              local lspconfig = require("lspconfig")
 
-            local cmp_lsp = require('cmp_nvim_lsp')
-            local capabilities = vim.tbl_deep_extend(
-              "force",
-              {},
-              vim.lsp.protocol.make_client_capabilities(),
-              cmp_lsp.default_capabilities())
+              local cmp_lsp = require('cmp_nvim_lsp')
+              local capabilities = vim.tbl_deep_extend(
+                "force",
+                {},
+                vim.lsp.protocol.make_client_capabilities(),
+                cmp_lsp.default_capabilities())
 
-            lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
-              capabilities = capabilities,
-              on_attach = require("config.lsp_keymaps"),
-            })
+              lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
+                capabilities = capabilities,
+                on_attach = require("config.lsp_keymaps"),
+              })
 
-            lspconfig.lua_ls.setup {
-              settings = {
-                Lua = {
-                    diagnostics = {
-                        globals = { "vim", "it", "describe", "before_each", "after_each" },
-                    }
+              lspconfig.lua_ls.setup {
+                settings = {
+                  Lua = {
+                      diagnostics = {
+                          globals = { "vim", "it", "describe", "before_each", "after_each" },
+                      }
+                  }
                 }
               }
-            }
-            lspconfig.nixd.setup {}
-            lspconfig.gopls.setup {}
-            lspconfig.clangd.setup {}
+              lspconfig.nixd.setup {}
+              lspconfig.gopls.setup {}
+              lspconfig.clangd.setup {}
+              ${(lib.concatStringsSep "\n" cfg.lspConfig)}
 
-
-            -- this will be removed eventually.
-            require('mason-lspconfig').setup({
-              ensure_installed = {},
-              handlers = {
-                function(server_name)
-                  require("lspconfig")[server_name].setup {
-                    capabilities = capabilities,
-                    on_attach = require("config.lsp_keymaps"),
-                  }
-                end,
-              },
-          })
-          end,
+            end,
+          }
         }
-      }
-    '';
+      '';
+    };
+
+
+
+
   };
+
 
   ##################################################################
   # Options
   ##################################################################
 
   options.programs.neovim = {
-    additionalLSPs = lib.mkOption {
+    additionalPackages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = [];
       description = "additional packages to install, typically LSPs";
     };
 
-    extraTSParsers = lib.mkOption {
-      type = lib.types.listOf lib.types.package;
-      description = "addtional treesitter parsers to install";
+    nullLsSources = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "additional lines to pass to 'null_ls.setup()'";
     };
 
-    nullLsSetup = lib.mkOption {
-      type = lib.types.str;
-      default = "";
-      description = "addtional lines to provide to 'null_ls.setup()'";
+    lspConfig = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "additional lines to pass to 'lspconfig.setup()'";
+    };
+
+    extraTSParsers = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
+      default = [];
+      description = "addtional treesitter parsers to install";
     };
   };
   config.programs.neovim = lib.mkIf cfg.enable {
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
+    defaultEditor = lib.mkDefault true;
+    viAlias = lib.mkDefault true;
+    vimAlias = lib.mkDefault true;
     extraPackages =
       [
         pkgs.alejandra # Nix formatter
@@ -215,7 +208,7 @@ in {
         pkgs.lldb
         pkgs.nixd # Nix lauguage server
       ]
-      ++ cfg.additionalLSPs;
+      ++ cfg.additionalPackages;
     plugins = [
       treesitterWithGrammars
     ];

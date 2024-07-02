@@ -5,8 +5,5 @@
 
   programs.neovim = {
     enable = true;
-    nullLsSetup = ''
-      asdf
-    '';
   };
 }
