@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   imports = [
-    ../../modules/neovim/neovim.nix
+    ../../modules/home/neovim/neovim.nix
   ];
   programs.neovim = {
     enable = true;
@@ -14,7 +14,7 @@
       typescript
     ];
     additionalPackages = with pkgs; [
-      black 
+      black
       nodePackages.typescript-language-server
       pgformatter
     ];
