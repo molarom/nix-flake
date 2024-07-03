@@ -7,6 +7,12 @@
   cfg = config.programs.neovim;
 
   ##################################################################
+  # Telescope fzf
+  ##################################################################
+
+  telescope-fzf = pkgs.vimPlugins.telescope-fzf-native-nvim;
+
+  ##################################################################
   # Treesitter
   ##################################################################
 
@@ -50,6 +56,11 @@ in {
       recursive = true;
     };
 
+    home.file."./.local/share/nvim/nix/telescope-fzf-native/" = {
+      source = telescope-fzf;
+      recursive = true;
+    };
+
     home.file."./.local/share/nvim/nix/nvim-treesitter/" = {
       source = treesitterWithGrammars;
       recursive = true;
@@ -70,6 +81,7 @@ in {
         end
 
         vim.opt.runtimepath:append("${treesitter-parsers}")
+        vim.opt.runtimepath:append("${telescope-fzf}")
       '';
     };
 
@@ -155,12 +167,7 @@ in {
         }
       '';
     };
-
-
-
-
   };
-
 
   ##################################################################
   # Options
@@ -210,6 +217,7 @@ in {
       ]
       ++ cfg.additionalPackages;
     plugins = [
+      telescope-fzf
       treesitterWithGrammars
     ];
   };

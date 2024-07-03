@@ -3,23 +3,9 @@
 return {
   'folke/trouble.nvim',
   cmd = { "TroubleToggle", "Trouble" },
-  opts = {
-    use_diagnostic_signs = true,
-    modes = {
-      test = {
-        mode = "diagnostics",
-        preview = {
-          type = "split",
-          relative = "win",
-          position = "right",
-          size = 0.3,
-        },
-      },
-    },
-  },
   enabled = true,
   keys = {
-    { '<leader>xx', "<cmd>Trouble diagnostics toggle<CR>", desc = 'Trouble: [xx] Show Diagnostics' },
+    { '<leader>xx', "<cmd>Trouble preview_float<CR>", desc = 'Trouble: [xx] Show Diagnostics' },
     { '<leader>xl', "<cmd>Trouble loclist toggle<CR>", desc = 'Trouble: [xl] Show trouble in location list' },
     { '<leader>xq', "<cmd>Trouble qflist toggle<CR>", desc = 'Trouble: [xq] Show trouble in quickfix' },
     {
@@ -51,4 +37,24 @@ return {
       desc = "Next trouble/quickfix item",
     },
   },
+  config = function ()
+    local trouble = require('trouble')
+    trouble.setup({
+      modes = {
+        preview_float = {
+          mode = "diagnostics",
+          preview = {
+            type = "float",
+            relative = "editor",
+            border = "rounded",
+            title = "Preview",
+            title_pos = "center",
+            position = { 0, -2 },
+            size = { width = 0.3, height = 0.3 },
+            zindex = 200,
+          },
+        }
+      },
+    })
+  end
 }
