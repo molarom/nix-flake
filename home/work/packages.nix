@@ -40,7 +40,6 @@ in {
       pandoc
       parallel
       pass
-      pgformatter
       postgresql_15
       python310
       ripgrep

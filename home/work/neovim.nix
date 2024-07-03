@@ -14,14 +14,22 @@
       typescript
     ];
     additionalPackages = with pkgs; [
+      actionlint
+      ansible-lint
       black
       nodePackages.typescript-language-server
       pgformatter
+      pylint
+      sqlfluff
     ];
     lspConfig = [
       "lspconfig.tsserver.setup{}"
     ];
     nullLsSources = [
+      "null_ls.builtins.diagnostics.actionlint,"
+      "null_ls.builtins.diagnostics.ansiblelint,"
+      "null_ls.builtins.diagnostics.pylint,"
+      "null_ls.builtins.diagnostics.sqlfluff.with({ extra_args = {\"--dialect\", \"postgres\" },"
       "null_ls.builtins.formatting.black,"
       "null_ls.builtins.formatting.pg_format,"
     ];
