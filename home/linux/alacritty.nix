@@ -1,10 +1,10 @@
 {...}: {
   imports = [
-    ../../modules/home/alacrity
+    ../../modules/home/alacritty
   ];
 
-  programs.neovim = {
+  programs.alacritty = {
     enable = true;
-    fontSize = 9;
+    fontSize = 8;
   };
 }
