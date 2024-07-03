@@ -29,6 +29,7 @@
         p.gomod
         p.jq
         p.lua
+        p.luadoc
         p.make
         p.markdown
         p.nix
