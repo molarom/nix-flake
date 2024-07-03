@@ -3,14 +3,25 @@
 return {
   'folke/trouble.nvim',
   cmd = { "TroubleToggle", "Trouble" },
-  opts = { use_diagnostic_signs = true },
+  opts = {
+    use_diagnostic_signs = true,
+    modes = {
+      test = {
+        mode = "diagnostics",
+        preview = {
+          type = "split",
+          relative = "win",
+          position = "right",
+          size = 0.3,
+        },
+      },
+    },
+  },
   enabled = true,
   keys = {
-    { '<leader>xx', "<cmd> TroubleToggle document_diagnostics<CR>", desc = 'Trouble: [xx] Show Document Diagnostics' },
-    { '<leader>xX', "<cmd> TroubleToggle workspace_diagnostics<CR>", desc = 'Trouble: [xX] Show Workspace Diagnostics' },
-    { '<leader>xc', "<cmd> TroubleClose<CR>", desc = 'Trouble: [xc] Close Trouble' },
-    { '<leader>xl', "<cmd> TroubleToggle loclist<CR>", desc = 'Trouble: [xl] Show trouble in location list' },
-    { '<leader>xq', "<cmd> TroubleToggle quickfix<CR>", desc = 'Trouble: [xq] Show trouble in quickfix' },
+    { '<leader>xx', "<cmd>Trouble diagnostics toggle<CR>", desc = 'Trouble: [xx] Show Diagnostics' },
+    { '<leader>xl', "<cmd>Trouble loclist toggle<CR>", desc = 'Trouble: [xl] Show trouble in location list' },
+    { '<leader>xq', "<cmd>Trouble qflist toggle<CR>", desc = 'Trouble: [xq] Show trouble in quickfix' },
     {
       "[q",
       function()
