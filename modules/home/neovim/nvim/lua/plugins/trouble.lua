@@ -5,9 +5,9 @@ return {
   cmd = { "TroubleToggle", "Trouble" },
   enabled = true,
   keys = {
-    { '<leader>xx', "<cmd>Trouble preview_float<CR>", desc = 'Trouble: [xx] Show Diagnostics' },
+    { '<leader>xx', "<cmd>Trouble preview_float<CR>",  desc = 'Trouble: [xx] Show Diagnostics' },
     { '<leader>xl', "<cmd>Trouble loclist toggle<CR>", desc = 'Trouble: [xl] Show trouble in location list' },
-    { '<leader>xq', "<cmd>Trouble qflist toggle<CR>", desc = 'Trouble: [xq] Show trouble in quickfix' },
+    { '<leader>xq', "<cmd>Trouble qflist toggle<CR>",  desc = 'Trouble: [xq] Show trouble in quickfix' },
     {
       "[q",
       function()

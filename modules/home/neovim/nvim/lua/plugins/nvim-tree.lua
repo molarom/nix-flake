@@ -15,7 +15,7 @@ return {
             enable = true,
             update_cwd = true,
           },
-          on_attach = require("config.nvimtree"),
+          on_attach = require("config.nvim_tree"),
         })
     end,
   },
