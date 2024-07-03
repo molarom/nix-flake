@@ -5,6 +5,6 @@
 
   programs.alacritty = {
     enable = true;
-    fontSize = 9.25;
+    fontOffset = "{ x = 2, y = 2 }";
   };
 }

@@ -1,6 +1,5 @@
 {
   imports = [
-    #./alacritty.nix
     ./cli.nix
     ./pass.nix
     ./tmux.nix

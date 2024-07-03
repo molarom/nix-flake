@@ -28,12 +28,12 @@ in {
         opacity = 0.7
 
         [font]
-        size = ${cfg.fontSize}
+        size = ${builtins.toString cfg.fontSize}
         normal = { family = "Mononoki Nerd Font", style = "Regular" }
         bold = { family = "Mononoki Nerd Font", style = "Bold" }
         italic = { family = "Mononoki Nerd Font", style = "Italic" }
         bold_italic = { family = "Mononoki Nerd Font", style = "BoldItalic" }
-        offset = { x = 2, y = 2 }
+        offset = ${cfg.fontOffset}
 
         [keyboard]
         bindings = [
@@ -89,18 +89,31 @@ in {
         white = '0xd7d7d5'
       '';
     };
+  };
 
-    ##################################################################
-    # Options
-    ##################################################################
-    options.programs.alacritty = {
-      fontSize = lib.mkOption {
-        type = lib.types.int;
-        default = 11.25;
-        description = "the font size to render";
-      };
+  ##################################################################
+  # Options
+  ##################################################################
+
+  options.programs.alacritty = {
+    fontSize = lib.mkOption {
+      type = lib.types.number;
+      default = 11.25;
+      description = "the font size to render";
     };
 
-    config.programs.alacritty = lib.mkIf cfg.enable {};
+    fontOffset = lib.mkOption {
+      type = lib.types.str;
+      default = "{ x = 0, y = 0 }";
+      description = ''
+        the font spacing offsets provided as '{ x = <int>, y = <int> }'
+      '';
+    };
   };
+
+  ##################################################################
+  # Config
+  ##################################################################
+
+  config.programs.alacritty = lib.mkIf cfg.enable {};
 }

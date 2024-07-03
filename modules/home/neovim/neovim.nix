@@ -6,12 +6,11 @@
 }: let
   cfg = config.programs.neovim;
 
-
   ##################################################################
   # Trash tool for Nvim-Tree
   ##################################################################
 
-  trash_cmd = 
+  trash_cmd =
     if pkgs.system == "aarch64-darwin"
     then pkgs.darwin.trash
     else pkgs.trash-cli;
@@ -217,6 +216,11 @@ in {
       description = "addtional treesitter parsers to install";
     };
   };
+
+  ##################################################################
+  # Config
+  ##################################################################
+
   config.programs.neovim = lib.mkIf cfg.enable {
     defaultEditor = lib.mkDefault true;
     viAlias = lib.mkDefault true;
