@@ -1,6 +1,6 @@
 {...}: {
   imports = [
-    ../../modules/home/neovim/neovim.nix
+    ../../modules/home/neovim
   ];
 
   programs.neovim = {

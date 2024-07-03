@@ -15,7 +15,7 @@ return {
             enable = true,
             update_cwd = true,
           },
-          on_attach = require("config.nvim-tree_keymaps"),
+          on_attach = require("config.nvimtree"),
         })
     end,
   },
