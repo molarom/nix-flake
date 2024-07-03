@@ -39,6 +39,7 @@
     text = ''
       [colors]
       draw_bold_text_with_bright_colors = true
+      transparent_background_colors = true
 
       # Cyberpunk-Neon colours
       [colors.primary]
