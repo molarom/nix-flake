@@ -6,7 +6,6 @@
   home.packages = with pkgs; [
     ansible
     awscli2
-    expvarmon
     flameshot
     fluxcd
     gh
