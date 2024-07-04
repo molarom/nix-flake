@@ -11,6 +11,7 @@
     else {dates = "weekly";};
 in {
   nix = {
+    package = pkgs.nix;
     settings = {
       # Enable Flakes
       experimental-features = ["nix-command" "flakes"];
