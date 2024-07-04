@@ -43,6 +43,14 @@
           ./modules/base.nix
           ./hosts/work/configuration.nix
           inputs.home-manager.darwinModules.home-manager
+          {
+            home-manager = {
+              extraSpecialArgs = {inherit inputs outputs;};
+              users = {
+                "brandon" = import ./home/work;
+              };
+            };
+          }
           inputs.nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {
@@ -61,15 +69,8 @@
           darwinConfig
           ./modules/base.nix
           ./hosts/mba/configuration.nix
+          ./hosts/mba/home.nix
           inputs.home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              extraSpecialArgs = {inherit inputs outputs;};
-              users = {
-                "molarom" = import ./home/darwin;
-              };
-            };
-          }
           inputs.nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {
