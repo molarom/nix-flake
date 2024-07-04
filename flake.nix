@@ -68,17 +68,9 @@
         modules = [
           darwinConfig
           ./modules/base.nix
-          ./hosts/mba/configuration.nix
-          ./hosts/mba/home.nix
+          ./hosts/mba
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              user = "molarom";
-              autoMigrate = true;
-            };
-          }
         ];
       };
     };
