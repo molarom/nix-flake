@@ -11,6 +11,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
   };
 
   outputs = {
@@ -25,10 +26,13 @@
     darwinConfig = {
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
-      # Nixpkgs
-      nixpkgs.hostPlatform = "aarch64-darwin";
+
+      # Create /etc/zshrc that loads the nix-darwin environment.
+      programs.zsh.enable = true;
+
       # Auto upgrade nix package and the daemon service.
       services.nix-daemon.enable = true;
+      nix.package = nixpkgs.nix;
     };
   in {
     darwinConfigurations = {
@@ -48,6 +52,14 @@
               };
             };
           }
+          inputs.nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              user = "brandon";
+              autoMigrate = true;
+            };
+          }
         ];
       };
 
@@ -65,6 +77,14 @@
               users = {
                 "molarom" = import ./home/darwin;
               };
+            };
+          }
+          inputs.nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              enable = true;
+              user = "brandon";
+              autoMigrate = true;
             };
           }
         ];
