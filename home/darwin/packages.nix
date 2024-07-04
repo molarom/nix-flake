@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+  imports = [
+    ../../modules/home/expvarmon
+  ];
+
   home = {
     packages = with pkgs; [
       cmake

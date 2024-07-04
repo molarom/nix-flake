@@ -4,6 +4,9 @@
     home = "/Users/molarom";
   };
 
+  # Nixpkgs
+  nixpkgs.hostPlatform = "aarch64-darwin";
+
   # Fonts
   fonts.packages = with pkgs; [
     (nerdfonts.override {fonts = ["Mononoki"];})

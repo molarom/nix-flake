@@ -82,7 +82,7 @@
           {
             nix-homebrew = {
               enable = true;
-              user = "brandon";
+              user = "molarom";
               autoMigrate = true;
             };
           }
