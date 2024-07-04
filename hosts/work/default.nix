@@ -1,7 +1,7 @@
 let
-  molarom = {
-    name = "molarom";
-    home = "/Users/molarom";
+  brandon = {
+    name = "brandon";
+    home = "/Users/brandon";
   };
 in {
   imports = [
@@ -12,10 +12,10 @@ in {
 
   darwinSettings = {
     enable = true;
-    user = molarom;
+    user = brandon;
   };
 
   home-manager.users = {
-    "${molarom.name}" = import ../../home/darwin;
+    "${brandon.name}" = import ../../home/work;
   };
 }

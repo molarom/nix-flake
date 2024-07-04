@@ -1,16 +1,6 @@
 {pkgs, ...}: {
-  users.users.molarom = {
-    name = "molarom";
-    home = "/Users/molarom";
-  };
-
   # Nixpkgs
   nixpkgs.hostPlatform = "aarch64-darwin";
-
-  # Fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override {fonts = ["Mononoki"];})
-  ];
 
   # System Packages
   environment.systemPackages = with pkgs; [
@@ -19,12 +9,6 @@
   ];
 
   homebrew = {
-    enable = true;
-    global = {
-      autoUpdate = true;
-    };
-    onActivation.cleanup = "zap";
-
     casks = [
       "docker"
       "discord"
@@ -34,6 +18,16 @@
 
   services = {
     dnsmasq = {
+      enable = true;
+    };
+    nix-daemon = {
+      enable = true;
+    };
+  };
+
+  programs = {
+    # Create /etc/zshrc that loads the nix-darwin environment.
+    zsh = {
       enable = true;
     };
   };

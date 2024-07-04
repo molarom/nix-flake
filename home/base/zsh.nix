@@ -19,4 +19,8 @@
       theme = "sorin";
     };
   };
+
+  home.file.".zshrc".text = ''
+    autoload -U compinit && compinit
+  '';
 }

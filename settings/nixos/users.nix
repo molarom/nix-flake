@@ -3,12 +3,12 @@
   lib,
   ...
 }: let
-  cfg = config.darwinSettings;
+  cfg = config.nixSettings;
 in {
   options = {
-    darwinSettings.enable = lib.mkEnableOption "enable darwin settings";
+    nixSettings.enable = lib.mkEnableOption "enable nix settings";
 
-    darwinSettings.user = lib.mkOption {
+    nixSettings.user = lib.mkOption {
       type = lib.types.attrs;
       description = ''
         the primary user of this system
@@ -16,7 +16,10 @@ in {
 
         tommyT = {
           name = "tommyT";
-          home = "/home/tommyT";
+          isNormalUser = true;
+          description = "the T";
+          extraGroups = ["wheel"];
+          shell = pkgs.zsh;
         }
       '';
     };
@@ -26,10 +29,5 @@ in {
 
   config = lib.mkIf cfg.enable {
     users.users.${cfg.user.name} = cfg.user;
-    nix-homebrew = {
-      enable = true;
-      user = "${cfg.user.name}";
-      autoMigrate = true;
-    };
   };
 }

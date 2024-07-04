@@ -21,44 +21,19 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
-
-    # nix-darwin
-    darwinConfig = {
-      # Set Git commit hash for darwin-version.
-      system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Create /etc/zshrc that loads the nix-darwin environment.
-      programs.zsh.enable = true;
-
-      # Auto upgrade nix package and the daemon service.
-      services.nix-daemon.enable = true;
-    };
   in {
+    #####################################################
+    # Darwin Machines
+    #####################################################
+
     darwinConfigurations = {
       # Work MBP
       work-mbp = nix-darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          darwinConfig
-          ./modules/base.nix
-          ./hosts/work/configuration.nix
+          ./hosts/work
           inputs.home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              extraSpecialArgs = {inherit inputs outputs;};
-              users = {
-                "brandon" = import ./home/work;
-              };
-            };
-          }
           inputs.nix-homebrew.darwinModules.nix-homebrew
-          {
-            nix-homebrew = {
-              enable = true;
-              user = "brandon";
-              autoMigrate = true;
-            };
-          }
         ];
       };
 
@@ -66,8 +41,6 @@
       mba = nix-darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          darwinConfig
-          ./modules/base.nix
           ./hosts/mba
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
@@ -75,23 +48,18 @@
       };
     };
 
-    # NixOS desktop
+    #####################################################
+    # NixOS Machines
+    #####################################################
+
     nixosConfigurations = {
+      # NixOS desktop
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./modules/base.nix
           ./hosts/nixos/configuration.nix
           inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              extraSpecialArgs = {inherit inputs outputs;};
-              users = {
-                "bepperson" = import ./home/linux;
-              };
-            };
-          }
         ];
       };
 
