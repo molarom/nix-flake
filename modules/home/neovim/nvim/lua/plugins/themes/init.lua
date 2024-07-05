@@ -5,7 +5,8 @@ return {
     priority = 1000,
   },
   {
-    "catpuccin/nvim",
+    "catppuccin/nvim",
+    name = "catppuccin",
     lazy = true,
     priority = 1000,
   },

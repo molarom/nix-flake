@@ -86,7 +86,7 @@ in {
 
     home.file."./.config/nvim/init.lua" = {
       text = ''
-        local csName = "catppuccin"
+        local csName = "${cfg.colorscheme}"
 
         require("config")
         require("plugin-loader")
@@ -198,10 +198,20 @@ in {
       description = "additional packages to install, typically LSPs";
     };
 
-    nullLsSources = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+    colorscheme = lib.mkOption {
+      type = lib.types.nullOr (lib.types.enum ["tokyonight" "catppuccin"]);
+      default = "tokyonight";
+      description = ''
+        the colorscheme to set
+
+        must be one of "tokyonight, catppuccin" (default "tokyonight")
+      '';
+    };
+
+    extraTSParsers = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
       default = [];
-      description = "additional lines to pass to 'null_ls.setup()'";
+      description = "addtional treesitter parsers to install";
     };
 
     lspConfig = lib.mkOption {
@@ -210,10 +220,10 @@ in {
       description = "additional lines to pass to 'lspconfig.setup()'";
     };
 
-    extraTSParsers = lib.mkOption {
-      type = lib.types.listOf lib.types.package;
+    nullLsSources = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
       default = [];
-      description = "addtional treesitter parsers to install";
+      description = "additional lines to pass to 'null_ls.setup()'";
     };
   };
 
