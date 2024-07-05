@@ -1,5 +1,6 @@
 {pkgs, ...}: let
   bepperson = {
+    name = "bepperson";
     isNormalUser = true;
     description = "Brandon";
     extraGroups = ["networkmanager" "wheel"];
@@ -8,11 +9,12 @@
 in {
   imports = [
     ./configuration.nix
+    ./services.nix
 
     ../../settings/nixos
   ];
 
-  nixosSettings = {
+  nixSettings = {
     enable = true;
     user = bepperson;
   };
