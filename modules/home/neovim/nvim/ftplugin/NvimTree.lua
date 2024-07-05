@@ -1,3 +1,7 @@
+-- Remove word wrap fix inside of nvim-tree to prevent stuttering.
+vim.keymap.set('n', 'k', "'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "'j'", { expr = true, silent = true })
+
 local bind = function(keys, func, desc)
     vim.keymap.set('n', keys, func, { buffer = true, silent = true, nowait = true, noremap = true, desc = desc })
 end
