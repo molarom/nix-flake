@@ -1,4 +1,4 @@
-{pkgs, ...}let
+{pkgs, ...}: let
   bepperson = {
     isNormalUser = true;
     description = "Brandon";
