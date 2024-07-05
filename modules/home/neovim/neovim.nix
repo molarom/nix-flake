@@ -86,7 +86,7 @@ in {
 
     home.file."./.config/nvim/init.lua" = {
       text = ''
-        local csName = "tokyonight"
+        local csName = "catppuccin"
 
         require("config")
         require("plugin-loader")
