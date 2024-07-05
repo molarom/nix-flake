@@ -20,7 +20,8 @@ local on_attach = function(_, bufnr)
 
       -- We want to quit and only one window besides tree is left
       if e.event == 'QuitPre' and winCount == 2 then
-        vim.api.nvim_cmd({cmd = 'qall'}, {})
+        vim.api.nvim_cmd({cmd = 'NvimTreeClose'}, {})
+        vim.api.nvim_cmd({cmd = 'quit'}, {})
       end
 
       -- :bd was probably issued an only tree window is left
