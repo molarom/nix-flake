@@ -29,7 +29,7 @@
       "null_ls.builtins.diagnostics.actionlint,"
       "null_ls.builtins.diagnostics.ansiblelint,"
       "null_ls.builtins.diagnostics.pylint,"
-      "null_ls.builtins.diagnostics.sqlfluff.with({ extra_args = {\"--dialect\", \"postgres\" },"
+      "null_ls.builtins.diagnostics.sqlfluff.with({ extra_args = {'--dialect', 'postgres', '-e', 'LT02,LT05'}}),"
       "null_ls.builtins.formatting.black,"
       "null_ls.builtins.formatting.pg_format,"
     ];
