@@ -64,12 +64,12 @@
       };
 
       # Testing k3s on NixOS VMs.
-      amaterasu = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
+      testvm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./modules/base.nix
-          ./hosts/k8s/configuration.nix
+          ./hosts/k8s
+          inputs.home-manager.nixosModules.home-manager
         ];
       };
     };
