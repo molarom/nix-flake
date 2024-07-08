@@ -7,6 +7,7 @@
     name = "testuser";
     isNormalUser = true;
     extraGroups = ["wheel"];
+    initialPassword = "test";
     shell = pkgs.zsh;
   };
 in {
