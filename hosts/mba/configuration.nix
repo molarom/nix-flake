@@ -4,8 +4,6 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
-    dnsmasq
-    qemu
   ];
 
   homebrew = {
@@ -17,9 +15,6 @@
   };
 
   services = {
-    dnsmasq = {
-      enable = true;
-    };
     nix-daemon = {
       enable = true;
     };

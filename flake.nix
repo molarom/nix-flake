@@ -64,15 +64,22 @@
       };
 
       # Testing k3s on NixOS VMs.
-      testvm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+      testVM = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/k8s
           inputs.home-manager.nixosModules.home-manager
+          {
+            virtualisation.vmVariant.virtualisation.host.pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+          }
         ];
       };
     };
+    #####################################################
+    # VMs
+    #####################################################
+    packages.aarch64-darwin.testVM = self.nixosConfigurations.testVM.config.system.build.vm;
 
     # Expose the package set, including overlays, for convenience.
     darwinPackages = self.darwinConfigurations."simple".pkgs;

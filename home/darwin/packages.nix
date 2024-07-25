@@ -9,6 +9,7 @@
       gcc
       gnumake
       go
+      python312
     ];
   };
 }
