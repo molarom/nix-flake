@@ -3,10 +3,17 @@
     ../../modules/home/expvarmon
   ];
 
+  # Add homebrew packages to path.
+  programs.zsh = {
+    initExtra = ''
+      export PATH=$PATH:/opt/homebrew/bin
+    '';
+  };
+
   home.packages = with pkgs; [
+    act
     ansible
     awscli2
-    flameshot
     fluxcd
     gh
     git
@@ -14,26 +21,30 @@
     go
     go-migrate
     go-swag
+    go-tools
     gofumpt
     golangci-lint
+    govulncheck
+    istioctl
     jq
+    krew
     kubectl
     kubernetes-helm
-    krew
     kustomize
-    istioctl
     nodePackages.pnpm
     nodejs_20
+    open-policy-agent
     packer
     pandoc
     parallel
     pass
+    pgcli
     postgresql_15
-    python310
+    python312
+    regal
     ripgrep
-    sshuttle
     sops
-    sqlc
+    sshuttle
     terraform
     terragrunt
     tree
@@ -41,7 +52,6 @@
     turbo
     typescript
     unixtools.watch
-    yarn
     yq
   ];
 }
