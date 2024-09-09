@@ -36,13 +36,15 @@
 
   # Bootloader.
   boot.loader = {
-    systemd-boot = {
+    efi.canTouchEfiVariables = true;
+    grub = {
       enable = true;
-
+      devices = ["nodev"];
+      efiSupport = true;
+      useOSProber = true;
       # Limit the generations to keep.
       configurationLimit = 10;
     };
-    efi.canTouchEfiVariables = true;
   };
 
   # Networking
@@ -65,7 +67,10 @@
   security.rtkit.enable = true;
 
   # Time zone
-  time.timeZone = "America/New_York";
+  time = {
+    hardwareClockInLocalTime = true;
+    timeZone = "America/New_York";
+  };
 
   # Select internationalisation properties.
   i18n = {
