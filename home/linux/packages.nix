@@ -7,6 +7,7 @@
       gnumake
       go
       spotify
+      texliveBasic
     ];
   };
 }
