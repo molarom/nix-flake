@@ -9,15 +9,19 @@
 
   # System Packages
   environment.systemPackages = with pkgs; [
-    kind
   ];
 
   # Homebrew programs
   homebrew = {
+    brews = [
+      "kind"
+      "openssl"
+      "pre-commit"
+      "yamllint"
+      "detect-secrets"
+    ];
     casks = [
       "docker"
-      "discord"
-      "iterm2"
       "slack"
       "spotify"
     ];
