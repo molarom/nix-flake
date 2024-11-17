@@ -6,7 +6,7 @@
   # Add homebrew packages to path.
   programs.zsh = {
     initExtra = ''
-      export PATH=$PATH:/opt/homebrew/bin
+      export PATH=$PATH:/opt/homebrew/bin:$HOME/go/bin
     '';
   };
 
@@ -17,16 +17,14 @@
     fluxcd
     gh
     git
-    gnupg
+    glab
     go
     go-migrate
-    go-swag
     go-tools
     gofumpt
     golangci-lint
     govulncheck
     istioctl
-    jq
     krew
     kubectl
     kubernetes-helm
@@ -34,15 +32,12 @@
     nodePackages.pnpm
     nodejs_20
     open-policy-agent
-    packer
     pandoc
     parallel
-    pass
     pgcli
     postgresql_15
     python312
     regal
-    ripgrep
     sops
     sshuttle
     terraform
@@ -52,6 +47,5 @@
     turbo
     typescript
     unixtools.watch
-    yq
   ];
 }
