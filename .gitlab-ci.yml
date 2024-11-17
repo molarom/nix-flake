@@ -7,7 +7,7 @@
 update:
   extends: .nix
   rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
     - git checkout main
     - git reset --hard $CI_COMMIT_SHA
