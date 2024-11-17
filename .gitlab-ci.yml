@@ -9,7 +9,7 @@ update:
   rules:
     - if: $CI_PIPELINE_SOURCE == "push"
   script:
-    - git checkout master
+    - git checkout main
     - git reset --hard $CI_COMMIT_SHA
     - nix flake update
     - |
