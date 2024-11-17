@@ -10,6 +10,9 @@
     git
     jq
     docker
+    buildkit
+    rootlesskit
+    containerd
     docker-compose
     gnupg
     neofetch
@@ -96,6 +99,9 @@
     docker.rootless = {
       enable = true;
       setSocketVariable = true;
+    };
+    containerd = {
+      enable = true;
     };
     libvirtd.enable = true;
     # vmware.host.enable = true;

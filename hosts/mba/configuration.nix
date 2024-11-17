@@ -25,6 +25,7 @@
     zsh = {
       enable = true;
     };
+    tmux.enable = true;
   };
 
   # Used for backwards compatibility, please read the changelog before changing.
