@@ -6,6 +6,7 @@
   programs.tmux = {
     enable = true;
     shell = "${pkgs.zsh}/bin/zsh";
+    sensibleOnTop = false;
     shortcut = "a";
     baseIndex = 1;
     escapeTime = 1;

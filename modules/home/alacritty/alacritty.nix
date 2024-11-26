@@ -13,6 +13,7 @@ in {
 
     home.file."./.config/alacritty/alacritty.toml" = {
       text = ''
+        [general]
         import = [
           "~/.config/alacritty/cyberpunk.toml"
         ]
