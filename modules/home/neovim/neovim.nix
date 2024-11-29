@@ -123,7 +123,7 @@ in {
                   null_ls.builtins.formatting.gofumpt,
                   null_ls.builtins.formatting.goimports_reviser,
                   null_ls.builtins.formatting.alejandra,
-                  ${(lib.concatStringsSep "\n" cfg.nullLsSources)}
+                  ${(lib.concatStringsSep ",\n" cfg.nullLsSources)}
                 },
                 on_attach = function(client, bufnr)
                   if client.supports_method("textDocument/formatting") then
