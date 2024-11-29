@@ -10,6 +10,8 @@
       gnumake
       go
       python312
+      texliveBasic
+      rustup
     ];
   };
 }
