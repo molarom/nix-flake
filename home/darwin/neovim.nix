@@ -16,7 +16,9 @@
       latex
     ];
     lspConfig = [
-      "lspconfig.rust_analyzer.setup{}"
+      "lspconfig.rust_analyzer.setup{
+        on_attach = autoformat -- defined in lsp.lua
+      }"
       "lspconfig.texlab.setup{}"
     ];
     nullLsSources = [
