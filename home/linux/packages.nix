@@ -8,6 +8,7 @@
       go
       spotify
       texliveBasic
+      protonmail-desktop
       pgcli
     ];
   };
