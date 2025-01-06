@@ -46,6 +46,16 @@
           inputs.nix-homebrew.darwinModules.nix-homebrew
         ];
       };
+
+      # Personal MBP
+      mbp = nix-darwin.lib.darwinSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/mbp
+          inputs.home-manager.darwinModules.home-manager
+          inputs.nix-homebrew.darwinModules.nix-homebrew
+        ];
+      };
     };
 
     #####################################################
