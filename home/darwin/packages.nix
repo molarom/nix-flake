@@ -12,6 +12,16 @@
       python312
       texliveBasic
       rustup
+      go-tools
+      gofumpt
+      govulncheck
+      krew
+      kubectl
+      parallel
+      pgcli
+      tree
+      trivy
+      unixtools.watch
     ];
   };
 }
