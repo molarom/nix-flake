@@ -7,7 +7,7 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       {
-        'nvim-telescope/telescope-fzf-native.nvim',
+        'nvim-telescope/telescope-fzf-native',
         dev = true;
       },
     },
