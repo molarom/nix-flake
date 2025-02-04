@@ -6,7 +6,6 @@
   programs.neovim = {
     enable = true;
     additionalPackages = with pkgs; [
-      rust-analyzer
       pgformatter
       sqlfluff
       texlab
@@ -18,9 +17,11 @@
       python
     ];
     lspConfig = [
-      "lspconfig.rust_analyzer.setup{
-        on_attach = autoformat -- defined in lsp.lua
-      }"
+      # Disabled for now.
+      # "lspconfig.rust_analyzer.setup{
+      #   cpa
+      #   on_attach = autoformat -- defined in lsp.lua
+      # }"
       "lspconfig.basedpyright.setup{
         -- testing defaults first
         -- analysis = {

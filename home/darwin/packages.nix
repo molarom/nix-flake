@@ -9,9 +9,9 @@
       gcc
       gnumake
       go
+      graphviz
       python312
       texliveBasic
-      rustup
       go-tools
       gofumpt
       govulncheck
