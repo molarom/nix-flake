@@ -37,12 +37,6 @@
     ];
   };
 
-  services = {
-    nix-daemon = {
-      enable = true;
-    };
-  };
-
   programs = {
     # Create /etc/zshrc that loads the nix-darwin environment.
     zsh = {
