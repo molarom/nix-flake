@@ -28,6 +28,7 @@
     brews = [
       "kind"
       "openssl"
+      "golangci-lint"
     ];
     casks = [
       "docker"
