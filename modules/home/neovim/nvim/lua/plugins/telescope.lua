@@ -12,6 +12,12 @@ return {
       },
     },
     keys = {
+      { '<leader>gd',       "<cmd> Telescope lsp_definitions<CR>",               desc = 'Telescope: LSP [G]oto [D]efinition' },
+      { '<leader>gr',       "<cmd> Telescope lsp_references<CR>",                desc = 'Telescope: LSP [G]oto [R]eference' },
+      { '<leader>gI',       "<cmd> Telescope lsp_implementations<CR>",           desc = 'Telescope: LSP [G]oto [I]mplementation' },
+      { '<leader>ds',       "<cmd> Telescope lsp_type_document_symbols<CR>",     desc = 'Telescope: LSP [D]ocument [S]ymbols' },
+      { '<leader>ws',       "<cmd> Telescope lsp_dynamic_workspace_symbols<CR>", desc = 'Telescope: LSP [W]orkspace [S]ymbols' },
+      { '<leader>D',        "<cmd> Telescope lsp_type_definitions<CR>",          desc = 'Telescope: LSP Type [D]efinition' },
       { '<leader>?',        "<cmd> Telescope oldfiles<CR>",                  desc = 'Telescope: [?] Find recently opened files' },
       { '<leader><space>',  "<cmd> Telescope buffers<CR>",                   desc = 'Telescope: [ ] Find existing buffers' },
       { '<leader>/',        "<cmd> Telescope current_buffer_fuzzy_find<CR>", desc = 'Telescope: [/] Fuzzily search in current buffer' },

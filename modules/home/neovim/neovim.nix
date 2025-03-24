@@ -132,6 +132,10 @@ in {
             dependencies = {
               { "nvim-lua/plenary.nvim" },
             },
+            keys = {
+              { '<leader>rn', "<cmd> lua vim.lsp.buf.rename<CR>",      desc = 'LSP: [R]e[N]ame' },
+              { '<leader>ca', "<cmd> lua vim.lsp.buf.code_action<CR>", desc = 'LSP: [C]ode [A]ction' },
+            },
             config = function()
               local null_ls = require("null-ls")
               null_ls.setup({
