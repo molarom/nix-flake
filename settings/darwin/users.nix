@@ -31,5 +31,8 @@ in {
       user = "${cfg.user.name}";
       autoMigrate = true;
     };
+
+    # Required as part of nix-darwin's multi-user migration.
+    system.primaryUser = "${cfg.user.name}";
   };
 }
