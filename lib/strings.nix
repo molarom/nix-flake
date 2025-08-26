@@ -23,8 +23,7 @@
   # => "   foo"
   */
   prefixSpace = padding: str: let
-    strw = lib.stringLength str;
-    width = padding + strw;
+    width = padding + lib.stringLength str;
   in
     lib.fixedWidthString width " " str;
 }

@@ -28,7 +28,7 @@
   formatStringList = list: sep: padding: let
     lHead = builtins.elemAt list 0;
     lTail = builtins.tail list;
-    paddedTail = builtins.map (x: lib.romalor.prefixSpace padding x) lTail;
+    paddedTail = builtins.map (x: lib.romalor.strings.prefixSpace padding x) lTail;
     paddedList = [lHead] ++ paddedTail;
   in
     lib.concatStringsSep sep paddedList;
