@@ -15,7 +15,6 @@
   homebrew = {
     brews = [
       "cairo"
-      "cursor-cli"
       "detect-secrets"
       "kind"
       "opa"
