@@ -9,11 +9,4 @@
   programs.home-manager.enable = true;
 
   home.stateVersion = "23.11";
-
-  # Allow unfree packages
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
 }
