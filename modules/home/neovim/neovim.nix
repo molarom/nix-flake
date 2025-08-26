@@ -4,7 +4,13 @@
   pkgs,
   ...
 }: let
+  ##################################################################
+  # Module globals
+  ##################################################################
   cfg = config.programs.neovim;
+
+  # lists module.
+  lists = pkgs.lib.romalor.lists;
 
   ##################################################################
   # Trash tool for Nvim-Tree
@@ -109,7 +115,7 @@ in {
         local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
         -- Autoformatting
-        autoformat = function(client, bufnr)
+        local autoformat = function(client, bufnr)
           if client.supports_method("textDocument/formatting") then
             vim.api.nvim_clear_autocmds({
               group = augroup,
@@ -144,7 +150,7 @@ in {
                   null_ls.builtins.formatting.gofumpt,
                   null_ls.builtins.formatting.goimports_reviser,
                   null_ls.builtins.formatting.alejandra,
-                  ${(lib.concatStringsSep ",\n" cfg.nullLsSources)}
+                  ${(lists.formatStringList cfg.nullLsSources ",\n" 6)}
                 },
                 on_attach = autoformat
               })
@@ -176,17 +182,16 @@ in {
               lspconfig.lua_ls.setup {
                 settings = {
                   Lua = {
-                      diagnostics = {
-                          globals = { "vim", "it", "describe", "before_each", "after_each" },
-                      }
+                    diagnostics = {
+                      globals = { "vim", "it", "describe", "before_each", "after_each" },
+                    }
                   }
                 }
               }
               lspconfig.nixd.setup {}
               lspconfig.gopls.setup {}
               lspconfig.clangd.setup {}
-              ${(lib.concatStringsSep "\n" cfg.lspConfig)}
-
+              ${(lists.formatStringList cfg.lspConfig "\n" 6)}
             end,
           }
         }
