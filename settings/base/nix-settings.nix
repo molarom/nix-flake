@@ -8,7 +8,7 @@
         Minute = 0;
       };
     }
-    else {dates = "weekly";};
+    else {dates = "daily";};
   # See: https://github.com/NixOS/nix/issues/7273
   optimise_store =
     if pkgs.system == "aarch64-darwin"
@@ -29,9 +29,8 @@ in {
     gc =
       {
         automatic = true;
-        options = "--delete-older-than 7d";
+        options = "--delete-older-than 1d";
       }
       // gc_settings;
   };
-
 }
