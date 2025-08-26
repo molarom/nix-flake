@@ -13,7 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local opts = {
-  lockfile = vim.fn.expand('$HOME') .. '.config/nix/modules/home-manager/neovim',
+  lockfile = vim.fn.expand('$HOME') .. '/.config/nix/modules/home-manager/neovim/nvim/lazy-lock.json',
   concurrency = 10, -- limit the max number of concurrent tasks
   install = {
     missing = true,
@@ -21,6 +21,7 @@ local opts = {
   },
   dev = {
     path = "~/.local/share/nvim/nix",
+    patterns = { "nvim-treesitter", "telescope-fzf-native" },
     fallback = false,
   },
   ui = {
@@ -67,6 +68,11 @@ local opts = {
       --  * BufReadPre: this will be triggered early when opening a file from the command line directly
       disable_events = { "UIEnter", "VimEnter", "BufReadPre" },
     },
+  },
+  readme = {
+    enabled = true,
+    files = { "README.md", "lua/**/README.md"},
+    skip_if_doc_exists = true,
   },
   reset_packpath = true,
 }
