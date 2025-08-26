@@ -15,7 +15,6 @@
       krew
       kubectl
       parallel
-      pgcli
       tree
       trivy
       unixtools.watch
