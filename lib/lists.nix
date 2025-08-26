@@ -1,4 +1,7 @@
-{lib}: {
+{
+  lib,
+  self,
+}: {
   /**
   Formats a list of strings into a single string with optional padding.
 
@@ -28,7 +31,7 @@
   formatStringList = list: sep: padding: let
     lHead = builtins.elemAt list 0;
     lTail = builtins.tail list;
-    paddedTail = builtins.map (x: lib.romalor.strings.prefixSpace padding x) lTail;
+    paddedTail = builtins.map (x: self.strings.prefixSpace padding x) lTail;
     paddedList = [lHead] ++ paddedTail;
   in
     lib.concatStringsSep sep paddedList;
