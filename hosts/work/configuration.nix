@@ -15,6 +15,7 @@
   homebrew = {
     brews = [
       "cairo"
+      "cursor-cli"
       "detect-secrets"
       "kind"
       "opa"
@@ -30,7 +31,6 @@
     ];
     casks = [
       "cursor"
-      "cursor-cli"
       "docker-desktop"
       "figma"
       "slack"
