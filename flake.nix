@@ -35,7 +35,22 @@
         romalor = import ./lib {lib = super;};
       });
     };
+
+    # Home Manager modules
+    hm = import ./modules/home-manager;
+    hmList =
+      builtins.attrValues (builtins.removeAttrs hm ["default"]);
   in {
+    #####################################################
+    # Modules
+    #####################################################
+
+    homeManagerModules =
+      hm
+      // {
+        default = {...}: {imports = hmList;};
+      };
+
     #####################################################
     # Overlays
     #####################################################

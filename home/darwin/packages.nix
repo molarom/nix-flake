@@ -1,8 +1,4 @@
 {pkgs, ...}: {
-  imports = [
-    ../../modules/home/expvarmon
-  ];
-
   home = {
     packages = with pkgs; [
       cmake
@@ -10,8 +6,9 @@
       gnumake
       go
       graphviz
-      python312
+      python313
       texliveBasic
+      nodejs_22
       go-tools
       gofumpt
       govulncheck

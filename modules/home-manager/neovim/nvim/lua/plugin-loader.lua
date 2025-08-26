@@ -13,6 +13,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local opts = {
+  lockfile = vim.fn.expand('$HOME') .. '.config/nix/modules/home-manager/neovim',
   concurrency = 10, -- limit the max number of concurrent tasks
   install = {
     missing = true,

@@ -34,10 +34,4 @@ in {
       // gc_settings;
   };
 
-  # Allow unfree packages
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
 }

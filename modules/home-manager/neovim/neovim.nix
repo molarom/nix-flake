@@ -47,6 +47,7 @@
         p.luadoc
         p.make
         p.markdown
+        p.markdown_inline
         p.nix
         p.sql
         p.toml
