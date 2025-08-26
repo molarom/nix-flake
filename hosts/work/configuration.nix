@@ -14,24 +14,30 @@
   # Homebrew programs
   homebrew = {
     brews = [
-      "kind"
-      "openssl"
-      "pre-commit"
-      "yamllint"
+      "cairo"
       "detect-secrets"
+      "kind"
+      "opa"
+      "openssl"
+      "pinentry-mac"
+      "pkg-config"
+      "postgresql@16"
+      "pre-commit"
+      "wget"
+      "yamllint"
+      "ykman"
+      "yubikey-personalization"
     ];
     casks = [
-      "docker"
+      "cursor"
+      "cursor-cli"
+      "docker-desktop"
+      "figma"
       "slack"
-      "spotify"
     ];
   };
 
-  services = {
-    nix-daemon = {
-      enable = true;
-    };
-  };
+  ids.gids.nixbld = 350;
 
   programs = {
     # Create /etc/zshrc that loads the nix-darwin environment.

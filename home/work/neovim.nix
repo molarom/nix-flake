@@ -1,6 +1,12 @@
 {pkgs, ...}: {
   programs.neovim = {
     enable = true;
+    additionalPackages = with pkgs; [
+      typescript-language-server
+      prettierd
+      pgformatter
+      sqlfluff
+    ];
     extraTSParsers = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
       css
       hcl
@@ -9,12 +15,6 @@
       rego
       terraform
       typescript
-    ];
-    additionalPackages = with pkgs; [
-      typescript-language-server
-      prettierd
-      pgformatter
-      sqlfluff
     ];
     lspConfig = [
       "lspconfig.ts_ls.setup{}"

@@ -18,7 +18,7 @@ in {
   home-manager.users."${brandon.name}" = {
     imports = [
       outputs.homeManagerModules.default
-      ../../home/darwin
+      ../../home/work
     ];
   };
 }
