@@ -1,4 +1,4 @@
-let
+{outputs, ...}: let
   romalor = {
     name = "romalor";
     home = "/Users/romalor";
@@ -15,7 +15,10 @@ in {
     user = romalor;
   };
 
-  home-manager.users = {
-    "${romalor.name}" = import ../../home/darwin;
+  home-manager.users."${romalor.name}" = {
+    imports = [
+      outputs.homeManagerModules.default
+      ../../home/darwin
+    ];
   };
 }
