@@ -1,5 +1,5 @@
 {
-  description = "Nixos config flake";
+  description = "Nix Config Flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -21,7 +21,26 @@
     ...
   } @ inputs: let
     inherit (self) outputs;
+
+    systems = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
+
+    # Overlay ./lib to extend nixpkgs.lib
+    overlay = final: prev: {
+      lib = prev.lib.extend (_final: super: {
+        romalor = import ./lib {lib = super;};
+      });
+    };
   in {
+    #####################################################
+    # Overlays
+    #####################################################
+    overlays.default = overlay;
+
     #####################################################
     # Darwin Machines
     #####################################################
@@ -31,6 +50,7 @@
       work-mbp = nix-darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
+          ./overlays/nixpkgs.nix
           ./hosts/work
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
@@ -41,6 +61,7 @@
       mba = nix-darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
+          ./overlays/nixpkgs.nix
           ./hosts/mba
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
@@ -51,6 +72,7 @@
       mbp = nix-darwin.lib.darwinSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
+          ./overlays/nixpkgs.nix
           ./hosts/mbp
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
@@ -68,6 +90,7 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
+          ./overlays/nixpkgs.nix
           ./hosts/nixos
           inputs.home-manager.nixosModules.home-manager
         ];
@@ -78,6 +101,7 @@
         system = "aarch64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
+          ./overlays/nixpkgs.nix
           ./hosts/k8s
           inputs.home-manager.nixosModules.home-manager
           {
@@ -92,6 +116,12 @@
     packages.aarch64-darwin.testVM = self.nixosConfigurations.testVM.config.system.build.vm;
 
     # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."simple".pkgs;
+    legacyPackages = nixpkgs.lib.genAttrs systems (
+      system:
+        import nixpkgs {
+          inherit system;
+          overlays = [overlay];
+        }
+    );
   };
 }
