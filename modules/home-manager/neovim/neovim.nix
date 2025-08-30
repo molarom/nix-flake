@@ -166,6 +166,7 @@ in {
                 python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
                 c = { "clang-format" },
                 ["_"] = {"trim_whitespace"},
+                ${(lists.formatStringList cfg.conformSources "\n" 8)}
               },
               format_on_save = {
                 lsp_fallback = true,
@@ -202,6 +203,7 @@ in {
               typescriptreact = { "eslint_d" },
               go = { "golangcilint" },
               c = { "clang-tidy" },
+              ${(lists.formatStringList cfg.lintSources "\n" 6)}
             }
 
             local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -321,10 +323,16 @@ in {
       description = "additional lines to pass to 'lspconfig.setup()'";
     };
 
-    nullLsSources = lib.mkOption {
+    conformSources = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
-      description = "additional lines to pass to 'null_ls.setup()'";
+      description = "additional lines to pass to 'conform.setup()'";
+    };
+
+    lintSources = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [];
+      description = "additional lines to pass to 'lint.setup()'";
     };
   };
 
@@ -340,13 +348,11 @@ in {
       [
         pkgs.alejandra # Nix formatter
         pkgs.clang-tools
-        pkgs.delve
         pkgs.djlint
         pkgs.eslint_d
         pkgs.fzf
         pkgs.golangci-lint
         pkgs.gopls
-        pkgs.lldb
         pkgs.lua-language-server
         pkgs.nixd # Nix lauguage server
         pkgs.pgformatter
