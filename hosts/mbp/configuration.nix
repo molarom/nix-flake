@@ -2,6 +2,10 @@
   # Nixpkgs
   nixpkgs.hostPlatform = "aarch64-darwin";
 
+  environment.variables = {
+    "HOMEBREW_NO_ANALYTICS" = "1";
+  };
+
   # System Packages
   environment.systemPackages = with pkgs; [
   ];
@@ -28,10 +32,10 @@
     brews = [
       "kind"
       "openssl"
-      "golangci-lint"
+      "docker"
     ];
     casks = [
-      "docker"
+      "orbstack"
       "discord"
       "spotify"
     ];

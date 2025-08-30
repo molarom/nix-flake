@@ -12,6 +12,8 @@
   # lists module.
   lists = pkgs.lib.romalor.lists;
 
+  nvim_plugins_dir = "./.config/nvim/lua/plugins";
+
   ##################################################################
   # Trash tool for Nvim-Tree
   ##################################################################
@@ -20,6 +22,15 @@
     if pkgs.system == "aarch64-darwin"
     then pkgs.darwin.trash
     else pkgs.trash-cli;
+
+  ##################################################################
+  # Image paste tool for img-clip.
+  ##################################################################
+
+  image_clip_cmd =
+    if pkgs.system == "aarch64-darwin"
+    then pkgs.pngpaste
+    else pkgs.xclip;
 
   ##################################################################
   # Telescope fzf
@@ -37,19 +48,25 @@
         p.bash
         p.c
         p.cpp
+        p.css
         p.dockerfile
         p.gitattributes
         p.gitignore
         p.go
         p.gomod
+        p.javascript
+        p.json
         p.jq
+        p.latex
         p.lua
         p.luadoc
         p.make
         p.markdown
         p.markdown_inline
+        p.python
         p.nix
         p.sql
+        p.typescript
         p.toml
         p.vim
         p.vimdoc
@@ -110,7 +127,99 @@ in {
       '';
     };
 
-    home.file."./.config/nvim/lua/plugins/lsp.lua" = {
+    # -- Formatting
+    home.file."${nvim_plugins_dir}/comform.lua" = {
+      text = ''
+        return {
+          "stevearc/conform.nvim",
+          event = { "BufReadPre", "BufNewFile" },
+          cmd = { "ConformInfo" },
+          keys = {
+            {
+              -- Customize or remove this keymap to your liking
+              "<leader>f",
+              function()
+                require("conform").format({ async = true })
+              end,
+              mode = { "n", "v" },
+              desc = "[F]ormat buffer",
+            },
+          },
+          config = function()
+            local conform = require("conform")
+
+            conform.setup({
+              formatters_by_ft = {
+                javascript = { "prettierd" },
+                typescript = { "prettierd" },
+                javascriptreact = { "prettierd" },
+                typescriptreact = { "prettierd" },
+                markdown = { "prettierd", "injected" },
+                css = { "prettierd" },
+                html = { "djlint", "prettierd" },
+                json = { "prettierd" },
+                yaml = { "prettierd" },
+                nix = { "alejandra" },
+                c = { "clang-format" },
+                go = { "golangci-lint", "injected" },
+                sql = { "pg_format" },
+                python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+                c = { "clang-format" },
+                ["_"] = {"trim_whitespace"},
+              },
+              format_on_save = {
+                lsp_fallback = true,
+                async = false,
+                timeout_ms = 500,
+              },
+            })
+          end,
+        }
+      '';
+    };
+
+    # -- Lint
+
+    home.file."${nvim_plugins_dir}/nvim-lint.lua" = {
+      text = ''
+        -- asynchronous linting
+        return {
+          "mfussenegger/nvim-lint",
+          event = {
+            "BufReadPre",
+            "BufNewFile",
+          },
+          keys = {
+            { '<leader>l', '<cmd> lua require("lint").try_lint()<CR>', desc = '[L]int' },
+          },
+          config = function()
+            local lint = require("lint")
+
+            lint.linters_by_ft = {
+              javascript = { "eslint_d" },
+              typescript = { "eslint_d" },
+              javascriptreact = { "eslint_d" },
+              typescriptreact = { "eslint_d" },
+              go = { "golangcilint" },
+              c = { "clang-tidy" },
+            }
+
+            local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+            vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+              group = lint_augroup,
+              callback = function()
+                lint.try_lint()
+              end,
+            })
+          end,
+        }
+      '';
+    };
+
+    # -- LSP
+
+    home.file."${nvim_plugins_dir}/lsp.lua" = {
       text = ''
         -- LSP configs
         local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -134,36 +243,15 @@ in {
 
         return {
           {
-            "nvimtools/none-ls.nvim",
-            event = "VeryLazy",
-            dependencies = {
-              { "nvim-lua/plenary.nvim" },
-            },
+            'neovim/nvim-lspconfig',
+            cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
+            event = { 'BufReadPre', 'BufNewFile' },
             keys = {
               { '<leader>rn', "<cmd> lua vim.lsp.buf.rename<CR>",      desc = 'LSP: [R]e[N]ame' },
               { '<leader>ca', "<cmd> lua vim.lsp.buf.code_action<CR>", desc = 'LSP: [C]ode [A]ction' },
             },
-            config = function()
-              local null_ls = require("null-ls")
-              null_ls.setup({
-                sources = {
-                  null_ls.builtins.formatting.clang_format,
-                  null_ls.builtins.formatting.gofumpt,
-                  null_ls.builtins.formatting.goimports_reviser,
-                  null_ls.builtins.formatting.alejandra,
-                  ${(lists.formatStringList cfg.nullLsSources ",\n" 6)}
-                },
-                on_attach = autoformat
-              })
-            end,
-          },
-          {
-            'neovim/nvim-lspconfig',
-            cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
-            event = { 'BufReadPre', 'BufNewFile' },
             dependencies = {
               { 'hrsh7th/cmp-nvim-lsp' },
-              { 'nvimtools/none-ls.nvim' },
             },
             config = function()
               local lspconfig = require("lspconfig")
@@ -253,13 +341,19 @@ in {
         pkgs.alejandra # Nix formatter
         pkgs.clang-tools
         pkgs.delve
+        pkgs.djlint
+        pkgs.eslint_d
         pkgs.fzf
+        pkgs.golangci-lint
         pkgs.gopls
-        pkgs.gofumpt
-        pkgs.goimports-reviser
-        pkgs.lua-language-server
         pkgs.lldb
+        pkgs.lua-language-server
         pkgs.nixd # Nix lauguage server
+        pkgs.pgformatter
+        pkgs.prettierd
+        pkgs.stylua
+        pkgs.typescript-language-server
+        image_clip_cmd
         trash_cmd
       ]
       ++ cfg.additionalPackages;

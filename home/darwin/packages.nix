@@ -7,11 +7,9 @@
       gnumake
       go
       graphviz
-      python313
       texliveBasic
       nodejs_22
       go-tools
-      gofumpt
       govulncheck
       krew
       kubectl
@@ -19,6 +17,9 @@
       tree
       trivy
       unixtools.watch
+      (pkgs.python313.withPackages (p: [
+        p.pylatexenc # render-markdown.nvim
+      ]))
     ];
   };
 }

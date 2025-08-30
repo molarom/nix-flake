@@ -8,13 +8,9 @@
       sqlfluff
     ];
     extraTSParsers = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-      css
-      hcl
-      javascript
       python
       rego
       terraform
-      typescript
     ];
     lspConfig = [
       "lspconfig.ts_ls.setup{}"

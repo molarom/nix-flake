@@ -22,12 +22,6 @@ return {
       local compare = require('cmp.config.compare')
       local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
-      require("lspkind").init({
-        symbol_map = {
-          Copilot = '',
-        },
-      })
-
       cmp.setup({
         enabled = function()
           local disabled = false
@@ -68,7 +62,6 @@ return {
                 nvim_lsp = '[LSP]',
                 nvim_lsp_signature_help = '[Sign]',
                 buffer = '[Buf]',
-                copilot = '[GHub]',
                 path = '[Path]',
               },
             }) (entry, vim_item)
