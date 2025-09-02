@@ -1,9 +1,9 @@
 {...}: {
   homebrew = {
     enable = true;
-    global = {
+    onActivation = {
       autoUpdate = true;
+      cleanup = "zap";
     };
-    onActivation.cleanup = "zap";
   };
 }
