@@ -15,7 +15,7 @@
   nvim_plugins_dir = "./.config/nvim/lua/plugins";
 
   ##################################################################
-  # Trash tool for Nvim-Tree
+  # Trash tool for Neotree
   ##################################################################
 
   trash_cmd =
@@ -150,23 +150,7 @@ in {
 
             conform.setup({
               formatters_by_ft = {
-                javascript = { "prettierd" },
-                typescript = { "prettierd" },
-                javascriptreact = { "prettierd" },
-                typescriptreact = { "prettierd" },
-                markdown = { "prettierd", "injected" },
-                css = { "prettierd" },
-                html = { "djlint", "prettierd" },
-                json = { "prettierd" },
-                yaml = { "prettierd" },
-                nix = { "alejandra" },
-                c = { "clang-format" },
-                go = { "golangci-lint", "injected" },
-                sql = { "pg_format" },
-                python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
-                c = { "clang-format" },
-                ["_"] = {"trim_whitespace"},
-                ${(lists.formatStringList cfg.conformSources "\n" 8)}
+                ${(lists.formatStringList cfg.conformSources ",\n" 8)}
               },
               format_on_save = {
                 lsp_fallback = true,
@@ -197,13 +181,7 @@ in {
             local lint = require("lint")
 
             lint.linters_by_ft = {
-              javascript = { "eslint_d" },
-              typescript = { "eslint_d" },
-              javascriptreact = { "eslint_d" },
-              typescriptreact = { "eslint_d" },
-              go = { "golangcilint" },
-              c = { "clang-tidy" },
-              ${(lists.formatStringList cfg.lintSources "\n" 6)}
+              ${(lists.formatStringList cfg.lintSources ",\n" 6)}
             }
 
             local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -297,7 +275,16 @@ in {
   options.programs.neovim = {
     additionalPackages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
-      default = [];
+      default = [
+        pkgs.djlint
+        pkgs.eslint_d
+        pkgs.golangci-lint
+        pkgs.gopls
+        pkgs.pgformatter
+        pkgs.prettierd
+        pkgs.typescript-language-server
+        pkgs.texlab
+      ];
       description = "additional packages to install, typically LSPs";
     };
 
@@ -313,25 +300,55 @@ in {
 
     extraTSParsers = lib.mkOption {
       type = lib.types.listOf lib.types.package;
-      default = [];
+      default = [
+      ];
       description = "addtional treesitter parsers to install";
     };
 
     lspConfig = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [];
+      default = [
+        "lspconfig.ts_ls.setup{}"
+        "lspconfig.ruff.setup{}"
+        "lspconfig.texlab.setup{}"
+      ];
       description = "additional lines to pass to 'lspconfig.setup()'";
     };
 
     conformSources = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [];
+      default = [
+        "javascript = { 'prettierd' }"
+        "typescript = { 'prettierd' }"
+        "javascriptreact = { 'prettierd' }"
+        "typescriptreact = { 'prettierd' }"
+        "markdown = { 'prettierd', 'injected' }"
+        "css = { 'prettierd' }"
+        "html = { 'djlint', 'prettierd' }"
+        "json = { 'prettierd' }"
+        "yaml = { 'prettierd' }"
+        "nix = { 'alejandra' }"
+        "lua = { 'stylua' }"
+        "c = { 'clang-format' }"
+        "go = { 'golangci-lint', 'injected' }"
+        "sql = { 'pg_format' }"
+        "python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' }"
+        "c = { 'clang-format' }"
+        "['_'] = {'trim_whitespace'}"
+      ];
       description = "additional lines to pass to 'conform.setup()'";
     };
 
     lintSources = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [];
+      default = [
+        "javascript = { 'eslint_d' }"
+        "typescript = { 'eslint_d' }"
+        "javascriptreact = { 'eslint_d' }"
+        "typescriptreact = { 'eslint_d' }"
+        "go = { 'golangcilint' }"
+        "c = { 'clang-tidy' }"
+      ];
       description = "additional lines to pass to 'lint.setup()'";
     };
   };
@@ -347,18 +364,12 @@ in {
     extraPackages =
       [
         pkgs.alejandra # Nix formatter
-        pkgs.clang-tools
-        pkgs.djlint
-        pkgs.eslint_d
-        pkgs.fzf
-        pkgs.golangci-lint
-        pkgs.gopls
-        pkgs.lua-language-server
         pkgs.nixd # Nix lauguage server
-        pkgs.pgformatter
-        pkgs.prettierd
+        pkgs.clang-tools
+        pkgs.fzf
+        pkgs.lua-language-server
         pkgs.stylua
-        pkgs.typescript-language-server
+        pkgs.claude-code
         image_clip_cmd
         trash_cmd
       ]
