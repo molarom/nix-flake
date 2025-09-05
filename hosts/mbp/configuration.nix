@@ -30,9 +30,10 @@
 
   homebrew = {
     brews = [
-      "kind"
-      "openssl"
       "docker"
+      "kind"
+      "ollama"
+      "openssl"
     ];
     casks = [
       "orbstack"
