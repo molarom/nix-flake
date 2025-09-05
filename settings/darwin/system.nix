@@ -6,7 +6,7 @@
     SoftwareUpdate.AutomaticallyInstallMacOSUpdates = true;
 
     # Enable dark mode
-    NSGlobaldomain.AppleInterfaceStyle = "Dark";
+    NSGlobalDomain.AppleInterfaceStyle = "Dark";
 
     finder = {
       # Always show file extensions;
@@ -16,13 +16,16 @@
       FXPreferredViewStyle = "Nlsv";
 
       # Remove items in trash older than 30d.
-      FXRemoveTrashItems = true;
+      FXRemoveOldTrashItems = true;
+
+      # Default search scope is current folder.
+      FXDefaultSearchScope = "SCcf";
 
       # Allow finder process to be exited.
       QuitMenuItem = true;
 
       # Show path breadcrumbs.
-      ShowPathBar = true;
+      ShowPathbar = true;
 
       # Show disk space stats.
       ShowStatusBar = true;
