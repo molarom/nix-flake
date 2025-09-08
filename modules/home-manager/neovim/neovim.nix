@@ -333,7 +333,6 @@ in {
         "go = { 'golangci-lint', 'injected' }"
         "sql = { 'pg_format' }"
         "python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' }"
-        "c = { 'clang-format' }"
         "['_'] = {'trim_whitespace'}"
       ];
       description = "additional lines to pass to 'conform.setup()'";
