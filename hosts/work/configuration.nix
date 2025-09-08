@@ -31,6 +31,7 @@
     casks = [
       "cursor"
       "docker-desktop"
+      "orbstack"
       "figma"
       "slack"
     ];

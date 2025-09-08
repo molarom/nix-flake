@@ -1,14 +1,12 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     awscli2
+    corepack
     fluxcd
-    gh
     git
     glab
     go
     go-tools
-    gofumpt
-    golangci-lint
     govulncheck
     istioctl
     krew
@@ -18,7 +16,9 @@
     nodejs_22
     pandoc
     parallel
-    python313
+    (pkgs.python313.withPackages (p: [
+      p.pylatexenc # render-markdown.nvim
+    ]))
     regal
     sops
     terraform
