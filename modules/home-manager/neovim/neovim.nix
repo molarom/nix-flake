@@ -368,7 +368,6 @@ in {
         pkgs.fzf
         pkgs.lua-language-server
         pkgs.stylua
-        pkgs.claude-code
         image_clip_cmd
         trash_cmd
       ]
