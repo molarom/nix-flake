@@ -30,13 +30,12 @@
 
   homebrew = {
     brews = [
-      "docker"
       "kind"
       "ollama"
       "openssl"
     ];
     casks = [
-      "orbstack"
+      "docker-desktop"
       "discord"
       "spotify"
     ];
