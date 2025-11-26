@@ -10,7 +10,7 @@
       terraform
     ];
     lspConfig = [
-      "lspconfig.basedpyright.setup{
+      "lsp.config('basedpyright', {
         settings = {
           basedpyright = {
             disableOrganizeImports = true,
@@ -20,7 +20,7 @@
             },
           }
         }
-      }"
+      )"
     ];
     lintSources =
       [

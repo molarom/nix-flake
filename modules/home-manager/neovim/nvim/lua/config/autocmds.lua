@@ -2,15 +2,15 @@ local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 
 -- Create autogroup.
-local molaromAG = augroup('molarom', { clear = true })
+local molaromAG = augroup("molarom", { clear = true })
 
-autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = molaromAG,
-  desc = "Highlight when yanking",
-  pattern = '*',
+autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+	group = molaromAG,
+	desc = "Highlight when yanking",
+	pattern = "*",
 })
 
 -- autocmd({ "VimEnter" }, {
@@ -27,9 +27,9 @@ autocmd('TextYankPost', {
 -- })
 --
 autocmd("VimResized", {
-  callback = function()
-    vim.cmd "wincmd ="
-  end,
-  group = molaromAG,
-  desc = "Equalize Splits",
+	callback = function()
+		vim.cmd("wincmd =")
+	end,
+	group = molaromAG,
+	desc = "Equalize Splits",
 })

@@ -226,15 +226,11 @@ in {
             'neovim/nvim-lspconfig',
             cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
             event = { 'BufReadPre', 'BufNewFile' },
-            keys = {
-              { '<leader>rn', "<cmd> lua vim.lsp.buf.rename<CR>",      desc = 'LSP: [R]e[N]ame' },
-              { '<leader>ca', "<cmd> lua vim.lsp.buf.code_action<CR>", desc = 'LSP: [C]ode [A]ction' },
-            },
             dependencies = {
               { 'hrsh7th/cmp-nvim-lsp' },
             },
             config = function()
-              local lspconfig = require("lspconfig")
+              local lsp = vim.lsp
 
               local cmp_lsp = require('cmp_nvim_lsp')
               local capabilities = vim.tbl_deep_extend(
@@ -243,12 +239,12 @@ in {
                 vim.lsp.protocol.make_client_capabilities(),
                 cmp_lsp.default_capabilities())
 
-              lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
+              lsp.config('*', {
                 capabilities = capabilities,
                 on_attach = require("config.lsp_keymaps"),
               })
 
-              lspconfig.lua_ls.setup {
+              lsp.config('lua_ls', {
                 settings = {
                   Lua = {
                     diagnostics = {
@@ -256,10 +252,11 @@ in {
                     }
                   }
                 }
-              }
-              lspconfig.nixd.setup {}
-              lspconfig.gopls.setup {}
-              lspconfig.clangd.setup {}
+              })
+              lsp.enable('lua_ls')
+              lsp.enable('nixd')
+              lsp.enable('gopls')
+              lsp.enable('clangd')
               ${(lists.formatStringList cfg.lspConfig "\n" 6)}
             end,
           }
@@ -308,9 +305,9 @@ in {
     lspConfig = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [
-        "lspconfig.ts_ls.setup{}"
-        "lspconfig.ruff.setup{}"
-        "lspconfig.texlab.setup{}"
+        "lsp.enable('ts_ls')"
+        "lsp.enable('ruff')"
+        "lsp.enable('texlab')"
       ];
       description = "additional lines to pass to 'lspconfig.setup()'";
     };
