@@ -18,6 +18,7 @@
     parallel
     (pkgs.python313.withPackages (p: [
       p.pylatexenc # render-markdown.nvim
+      p.pipx
     ]))
     regal
     sops
