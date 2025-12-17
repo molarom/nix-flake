@@ -23,6 +23,7 @@
       ]))
       (pkgs.texliveBasic.withPackages (p: [
         p.xcolor
+        p.acrotex
       ]))
     ];
   };
