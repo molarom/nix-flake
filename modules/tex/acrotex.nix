@@ -5,6 +5,8 @@
   stdenvNoCC,
   fetchzip,
   texliveSmall,
+  writeShellScript,
+  writableTmpDirAsHomeHook,
 }:
 stdenvNoCC.mkDerivation {
   pname = "acrotex";
@@ -15,9 +17,19 @@ stdenvNoCC.mkDerivation {
     hash = "sha256-C01ffp/m4xTiRjE+Q3om3+X2oOR83vyaN1H7V5v5EtA=";
   };
 
-  outputs = ["out" "texdoc" "texsource"];
+  outputs = ["tex" "texdoc"];
 
-  nativeBuildInputs = [texliveSmall];
+  nativeBuildInputs = [
+    (texliveSmall.withPackages (
+      ps: [
+        ps.hyperref
+      ]
+    ))
+    (writeShellScript "force-tex-output.sh" ''
+      out="''${tex-}"
+    '')
+    writableTmpDirAsHomeHook
+  ];
 
   dontConfigure = true;
 
@@ -35,18 +47,14 @@ stdenvNoCC.mkDerivation {
   installPhase = ''
     runHook preInstall
 
-    # out: runtime files (TDS structure)
-    mkdir -p $out/tex/latex/acrotex
-    find . -maxdepth 1 \( -name "*.sty" -o -name "*.def" -o -name "*.cfg" \) -exec cp {} $out/tex/latex/acrotex/ \;
+    path="$tex/tex/latex/acrotex"
+    mkdir -p "$path"
+    find . -maxdepth 1 \( -name "*.sty" -o -name "*.def" -o -name "*.cfg" -o -name "*.clo" -o -name "*.cls" \) -exec cp {} $path \;
 
-    # texsource output: source files
-    mkdir -p $texsource/source/latex/acrotex
-    find . -maxdepth 1 \( -name "*.dtx" -o -name "*.ins" \) -exec cp {} $texsource/source/latex/acrotex/ \;
-
-    # texdoc output: documentation
-    mkdir -p $texdoc/doc/latex/acrotex
-    cp -r doc/* $texdoc/doc/latex/acrotex/ 2>/dev/null || true
-    find . -maxdepth 1 -name "README*" -exec cp {} $texdoc/doc/latex/acrotex/ \;
+    path="$texdoc/doc/latex/acrotex"
+    mkdir -p "$path"
+    cp -r doc/* $path 2>/dev/null || true
+    find . -maxdepth 1 -name "README*" -exec cp {} $path \;
 
     runHook postInstall
   '';
