@@ -2,7 +2,6 @@
   home = {
     packages = with pkgs; [
       claude-code
-      corepack
       cmake
       gcc
       gnumake
@@ -22,8 +21,12 @@
         p.pylatexenc # render-markdown.nvim
       ]))
       (pkgs.texliveBasic.withPackages (p: [
-        p.xcolor
         p.acrotex
+        p.conv-xkv
+        p.everyshi
+        p.metafont
+        p.xcolor
+        p.xkeyval
       ]))
     ];
   };
