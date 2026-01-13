@@ -308,6 +308,7 @@ in {
         "lsp.enable('ts_ls')"
         "lsp.enable('ruff')"
         "lsp.enable('texlab')"
+        "lsp.enable('basedpyright')"
       ];
       description = "additional lines to pass to 'lspconfig.setup()'";
     };
