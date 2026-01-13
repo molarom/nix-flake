@@ -15,24 +15,35 @@
   homebrew = {
     brews = [
       "cairo"
+      "chainctl"
       "detect-secrets"
+      "graphviz"
       "kind"
       "opa"
+      "opensc"
       "openssl"
       "pinentry-mac"
       "pkg-config"
       "postgresql@16"
       "pre-commit"
+      "swtpm"
+      "trivy"
       "wget"
       "yamllint"
       "ykman"
       "yubikey-personalization"
     ];
     casks = [
+      "coderabbit"
       "cursor"
       "docker-desktop"
       "figma"
       "slack"
+      "notion"
+      "zoom"
+    ];
+    taps = [
+      "chainguard-dev/tap"
     ];
   };
 
