@@ -35,6 +35,7 @@
       "openssl"
     ];
     casks = [
+      "claude"
       "docker-desktop"
       "discord"
       "spotify"
