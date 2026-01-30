@@ -93,176 +93,172 @@ in {
     # Files
     ##################################################################
 
-    home.file."./.config/nvim/" = {
-      source = ./nvim;
-      recursive = true;
-    };
+    home.file = lib.mkMerge [
+      {
+        "./.config/nvim/" = {
+          source = ./nvim;
+          recursive = true;
+        };
+      }
+      {
+        "./.local/share/nvim/nix/telescope-fzf-native/" = {
+          source = telescope-fzf;
+          recursive = true;
+        };
+      }
+      {
+        "./.local/share/nvim/nix/nvim-treesitter/" = {
+          source = treesitterWithGrammars;
+          recursive = true;
+        };
+      }
+      {
+        "./.config/nvim/init.lua" = {
+          text = ''
+            local csName = "${cfg.colorscheme}"
 
-    home.file."./.local/share/nvim/nix/telescope-fzf-native/" = {
-      source = telescope-fzf;
-      recursive = true;
-    };
+            require("config")
+            require("plugin-loader")
 
-    home.file."./.local/share/nvim/nix/nvim-treesitter/" = {
-      source = treesitterWithGrammars;
-      recursive = true;
-    };
+            local ok, _ = pcall(require, "plugins.themes." .. csName)
+            if(not ok) then
+              error("Unable to load theme: " .. csName .. " double check the lua/plugins/themes module.")
+            else
+              vim.cmd.colorscheme(csName)
+            end
 
-    home.file."./.config/nvim/init.lua" = {
-      text = ''
-        local csName = "${cfg.colorscheme}"
+            vim.opt.runtimepath:append("${treesitter-parsers}")
+            vim.opt.runtimepath:append("${telescope-fzf}")
+          '';
+        };
+      }
+      {
+        # -- Formatting
+        "${nvim_plugins_dir}/comform.lua" = {
+          text = ''
+            return {
+              "stevearc/conform.nvim",
+              event = { "BufReadPre", "BufNewFile" },
+              cmd = { "ConformInfo" },
+              keys = {
+                {
+                  -- Customize or remove this keymap to your liking
+                  "<leader>f",
+                  function()
+                    require("conform").format({ async = true })
+                  end,
+                  mode = { "n", "v" },
+                  desc = "[F]ormat buffer",
+                },
+              },
+              config = function()
+                local conform = require("conform")
 
-        require("config")
-        require("plugin-loader")
-
-        local ok, _ = pcall(require, "plugins.themes." .. csName)
-        if(not ok) then
-          error("Unable to load theme: " .. csName .. " double check the lua/plugins/themes module.")
-        else
-          vim.cmd.colorscheme(csName)
-        end
-
-        vim.opt.runtimepath:append("${treesitter-parsers}")
-        vim.opt.runtimepath:append("${telescope-fzf}")
-      '';
-    };
-
-    # -- Formatting
-    home.file."${nvim_plugins_dir}/comform.lua" = {
-      text = ''
-        return {
-          "stevearc/conform.nvim",
-          event = { "BufReadPre", "BufNewFile" },
-          cmd = { "ConformInfo" },
-          keys = {
-            {
-              -- Customize or remove this keymap to your liking
-              "<leader>f",
-              function()
-                require("conform").format({ async = true })
+                conform.setup({
+                  formatters_by_ft = {
+                    ${(lists.formatStringList cfg.conformSources ",\n" 8)}
+                  },
+                  format_on_save = {
+                    lsp_fallback = true,
+                    async = false,
+                    timeout_ms = 1000,
+                  },
+                })
               end,
-              mode = { "n", "v" },
-              desc = "[F]ormat buffer",
-            },
-          },
-          config = function()
-            local conform = require("conform")
-
-            conform.setup({
-              formatters_by_ft = {
-                ${(lists.formatStringList cfg.conformSources ",\n" 8)}
-              },
-              format_on_save = {
-                lsp_fallback = true,
-                async = false,
-                timeout_ms = 500,
-              },
-            })
-          end,
-        }
-      '';
-    };
-
-    # -- Lint
-
-    home.file."${nvim_plugins_dir}/nvim-lint.lua" = {
-      text = ''
-        -- asynchronous linting
-        return {
-          "mfussenegger/nvim-lint",
-          event = {
-            "BufReadPre",
-            "BufNewFile",
-          },
-          keys = {
-            { '<leader>l', '<cmd> lua require("lint").try_lint()<CR>', desc = '[L]int' },
-          },
-          config = function()
-            local lint = require("lint")
-
-            lint.linters_by_ft = {
-              ${(lists.formatStringList cfg.lintSources ",\n" 6)}
             }
+          '';
+        };
+      }
+      {
+        # -- Lint
 
-            local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+        "${nvim_plugins_dir}/nvim-lint.lua" = {
+          text = ''
+            -- asynchronous linting
+            return {
+              "mfussenegger/nvim-lint",
+              event = {
+                "BufReadPre",
+                "BufNewFile",
+              },
+              keys = {
+                { '<leader>l', '<cmd> lua require("lint").try_lint()<CR>', desc = '[L]int' },
+              },
+              config = function()
+                local lint = require("lint")
 
-            vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-              group = lint_augroup,
-              callback = function()
-                lint.try_lint()
-              end,
-            })
-          end,
-        }
-      '';
-    };
-
-    # -- LSP
-
-    home.file."${nvim_plugins_dir}/lsp.lua" = {
-      text = ''
-        -- LSP configs
-        local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-        -- Autoformatting
-        local autoformat = function(client, bufnr)
-          if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_clear_autocmds({
-              group = augroup,
-              buffer = bufnr,
-            })
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = augroup,
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format({ bufnr = bufnr })
-              end,
-            })
-          end
-        end
-
-        return {
-          {
-            'neovim/nvim-lspconfig',
-            cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
-            event = { 'BufReadPre', 'BufNewFile' },
-            dependencies = {
-              { 'hrsh7th/cmp-nvim-lsp' },
-            },
-            config = function()
-              local lsp = vim.lsp
-
-              local cmp_lsp = require('cmp_nvim_lsp')
-              local capabilities = vim.tbl_deep_extend(
-                "force",
-                {},
-                vim.lsp.protocol.make_client_capabilities(),
-                cmp_lsp.default_capabilities())
-
-              lsp.config('*', {
-                capabilities = capabilities,
-                on_attach = require("config.lsp_keymaps"),
-              })
-
-              lsp.config('lua_ls', {
-                settings = {
-                  Lua = {
-                    diagnostics = {
-                      globals = { "vim", "it", "describe", "before_each", "after_each" },
-                    }
-                  }
+                lint.linters_by_ft = {
+                  ${(lists.formatStringList cfg.lintSources ",\n" 6)}
                 }
-              })
-              lsp.enable('lua_ls')
-              lsp.enable('nixd')
-              lsp.enable('gopls')
-              lsp.enable('clangd')
-              ${(lists.formatStringList cfg.lspConfig "\n" 6)}
-            end,
-          }
-        }
-      '';
-    };
+
+                local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+                vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+                  group = lint_augroup,
+                  callback = function()
+                    lint.try_lint()
+                  end,
+                })
+              end,
+            }
+          '';
+        };
+      }
+      {
+        # -- LSP
+
+        "${nvim_plugins_dir}/lsp.lua" = {
+          text = ''
+            return {
+              {
+                'neovim/nvim-lspconfig',
+                cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
+                event = { 'BufReadPre', 'BufNewFile' },
+                dependencies = {
+                  { 'hrsh7th/cmp-nvim-lsp' },
+                },
+                config = function()
+                  local lsp = vim.lsp
+
+                  local cmp_lsp = require('cmp_nvim_lsp')
+                  local capabilities = vim.tbl_deep_extend(
+                    "force",
+                    {},
+                    vim.lsp.protocol.make_client_capabilities(),
+                    cmp_lsp.default_capabilities())
+
+                  lsp.config('*', {
+                    capabilities = capabilities,
+                    on_attach = require("config.lsp_keymaps"),
+                  })
+
+                  lsp.config('lua_ls', {
+                    settings = {
+                      Lua = {
+                        diagnostics = {
+                          globals = { "vim", "it", "describe", "before_each", "after_each" },
+                        }
+                      }
+                    }
+                  })
+                  lsp.enable('lua_ls')
+                  lsp.enable('nixd')
+                  lsp.enable('gopls')
+                  lsp.enable('clangd')
+                  ${(lists.formatStringList cfg.lspConfig "\n" 6)}
+                end,
+              }
+            }
+          '';
+        };
+      }
+      # -- Any addtional plugin files.
+      (builtins.listToAttrs (map (plugin: {
+          name = "${nvim_plugins_dir}/${plugin.name}";
+          value = {text = "return ${plugin.content}";};
+        })
+        cfg.extraPluginFiles))
+    ];
   };
 
   ##################################################################
@@ -344,9 +340,27 @@ in {
         "javascriptreact = { 'eslint_d' }"
         "typescriptreact = { 'eslint_d' }"
         "go = { 'golangcilint' }"
+        "nix = { 'nix' }"
         "c = { 'clang-tidy' }"
       ];
       description = "additional lines to pass to 'lint.setup()'";
+    };
+
+    extraPluginFiles = lib.mkOption {
+      type = lib.types.listOf (lib.types.submodule {
+        options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            description = "Filename for the plugin";
+          };
+          content = lib.mkOption {
+            type = lib.types.str;
+            description = "File content for plugin definition";
+          };
+        };
+      });
+      default = [];
+      description = "Addtional plugin files to add to lua/plugins/";
     };
   };
 

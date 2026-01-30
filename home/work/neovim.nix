@@ -15,7 +15,6 @@
       terraform
     ];
     lspConfig = [
-      "lsp.config('ts_ls')"
       "lsp.config('basedpyright', {
         settings = {
           basedpyright = {
@@ -27,6 +26,8 @@
           }
         }
       )"
+      "lsp.enable('basedpyright')"
+      "lsp.enable('ts_ls')"
     ];
     lintSources =
       [
