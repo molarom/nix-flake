@@ -4,14 +4,15 @@
       claude-code
       cmake
       gcc
+      git-lfs
       gnumake
       go
-      graphviz
-      nodejs_22
       go-tools
       govulncheck
+      graphviz
       krew
       kubectl
+      nodejs_22
       parallel
       qpdf
       tree

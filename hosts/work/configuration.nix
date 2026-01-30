@@ -14,14 +14,17 @@
   # Homebrew programs
   homebrew = {
     brews = [
+      "bruno-cli"
       "cairo"
       "chainctl"
       "detect-secrets"
+      "gitleaks"
       "graphviz"
       "kind"
       "opa"
       "opensc"
       "openssl"
+      "qemu"
       "pinentry-mac"
       "pkg-config"
       "postgresql@16"
@@ -34,8 +37,10 @@
       "yubikey-personalization"
     ];
     casks = [
+      "bruno"
       "coderabbit"
       "cursor"
+      "cursor-cli"
       "docker-desktop"
       "figma"
       "slack"
