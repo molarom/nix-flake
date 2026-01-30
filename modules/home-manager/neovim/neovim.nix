@@ -19,7 +19,7 @@
   ##################################################################
 
   trash_cmd =
-    if pkgs.system == "aarch64-darwin"
+    if pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
     then pkgs.darwin.trash
     else pkgs.trash-cli;
 
@@ -28,7 +28,7 @@
   ##################################################################
 
   image_clip_cmd =
-    if pkgs.system == "aarch64-darwin"
+    if pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
     then pkgs.pngpaste
     else pkgs.xclip;
 

@@ -1,6 +1,6 @@
 {pkgs, ...}: let
   gc_settings =
-    if pkgs.system == "aarch64-darwin"
+    if pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
     then {
       interval = {
         Weekday = 0;
@@ -11,7 +11,7 @@
     else {dates = "daily";};
   # See: https://github.com/NixOS/nix/issues/7273
   optimise_store =
-    if pkgs.system == "aarch64-darwin"
+    if pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
     then {auto-optimise-store = false;}
     else {auto-optimise-store = true;};
 in {
