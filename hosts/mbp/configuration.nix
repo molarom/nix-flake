@@ -31,7 +31,9 @@
   homebrew = {
     brews = [
       "kind"
+      "golangci-lint"
       "ollama"
+      "opencode"
       "openssl"
     ];
     casks = [
@@ -39,6 +41,9 @@
       "docker-desktop"
       "discord"
       "spotify"
+    ];
+    taps = [
+      "anomalyco/tap"
     ];
   };
 
