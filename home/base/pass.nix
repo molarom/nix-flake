@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     pass
-    passExtensions.pass-import
+    # passExtensions.pass-import
   ];
 }
