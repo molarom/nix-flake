@@ -39,7 +39,7 @@
     # Home Manager modules
     hm = import ./modules/home-manager;
     hmList =
-      builtins.attrValues (builtins.removeAttrs hm ["default"]);
+      builtins.attrValues (removeAttrs hm ["default"]);
   in {
     #####################################################
     # Modules
@@ -67,17 +67,6 @@
         modules = [
           ./overlays/nixpkgs.nix
           ./hosts/work
-          inputs.home-manager.darwinModules.home-manager
-          inputs.nix-homebrew.darwinModules.nix-homebrew
-        ];
-      };
-
-      # Personal MBA
-      mba = nix-darwin.lib.darwinSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./overlays/nixpkgs.nix
-          ./hosts/mba
           inputs.home-manager.darwinModules.home-manager
           inputs.nix-homebrew.darwinModules.nix-homebrew
         ];

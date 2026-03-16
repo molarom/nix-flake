@@ -1,28 +1,43 @@
 return {
 	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		enabled = true,
+		dev = false,
+		branch = "main",
+		init = function()
+			vim.g.no_plugin_maps = true
+		end,
+	},
+	{
 		-- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
-		depends = { "nvim-treesitter/nvim-treesitter-textobjects" },
 		enabled = true,
 		dev = true,
 		build = ":TSUpdate",
 		cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
 		event = { "VeryLazy" },
-		init = function()
-			require("nvim-treesitter.query_predicates")
-		end,
 		config = function()
-			local configs = require("nvim-treesitter.configs")
+			-- Enable treesitter highlight per filetype
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "*" },
+				callback = function(args)
+					local ft = vim.bo[args.buf].filetype
+					local lang = vim.treesitter.language.get_lang(ft)
 
-			configs.setup({
-				-- Don't install missing parsers when entering buffer.
-				auto_install = false,
-				-- Left to quiet LSP.
-				ignore_install = {},
-				-- Left to quiet LSP.
-				modules = {},
-				highlight = { enable = true },
-				indent = { enable = true },
+					if vim.treesitter.language.add(lang) then
+						vim.treesitter.start(args.buf, lang)
+					end
+				end,
+			})
+
+			-- Folding via treesitter.
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufAdd", "BufNew", "BufNewFile", "BufWinEnter" }, {
+				group = vim.api.nvim_create_augroup("TS_FOLD_WORKAROUND", {}),
+				callback = function()
+					vim.opt.foldmethod = "expr"
+					vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+					vim.wo.foldlevel = 99
+				end,
 			})
 		end,
 	},

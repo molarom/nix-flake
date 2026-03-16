@@ -127,8 +127,8 @@ in {
               vim.cmd.colorscheme(csName)
             end
 
-            vim.opt.runtimepath:append("${treesitter-parsers}")
-            vim.opt.runtimepath:append("${telescope-fzf}")
+            vim.opt.runtimepath:prepend("${treesitter-parsers}")
+            vim.opt.runtimepath:prepend("${telescope-fzf}")
           '';
         };
       }
@@ -271,7 +271,6 @@ in {
       default = [
         pkgs.djlint
         pkgs.eslint_d
-        pkgs.golangci-lint
         pkgs.gopls
         pkgs.pgformatter
         pkgs.prettierd
