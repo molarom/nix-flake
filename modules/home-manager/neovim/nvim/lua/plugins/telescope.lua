@@ -3,7 +3,7 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		cmd = "Telescope",
-		branch = "0.1.x",
+		version = "*",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{
@@ -112,6 +112,9 @@ return {
 							["<C-u>"] = false,
 							["<C-d>"] = false,
 						},
+					},
+					preview = {
+						filesize_limit = 0.2,
 					},
 				},
 				extensions = {
