@@ -78,6 +78,11 @@
   treesitter-parsers = pkgs.symlinkJoin {
     name = "treesitter-parsers";
     paths = treesitterWithGrammars.dependencies;
+    postBuild = ''
+      # Copy ecma and jsx query directories needed for JS/TS inheritance
+      cp -r ${pkgs.vimPlugins.nvim-treesitter}/runtime/queries/ecma $out/queries/
+      cp -r ${pkgs.vimPlugins.nvim-treesitter}/runtime/queries/jsx $out/queries/
+    '';
   };
 in {
   config = {

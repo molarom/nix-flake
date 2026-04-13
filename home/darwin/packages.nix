@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   home = {
     packages = with pkgs; [
-      claude-code
       cmake
       gcc
       git-lfs
