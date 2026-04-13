@@ -100,6 +100,17 @@
         ];
       };
 
+      # NixOS WSL
+      workWSL = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./overlays/nixpkgs.nix
+          ./hosts/work-wsl
+          inputs.home-manager.nixosModules.home-manager
+        ];
+      };
+
       # Testing k3s on NixOS VMs.
       testVM = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
