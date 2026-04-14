@@ -19,9 +19,11 @@
       "chainctl"
       "detect-secrets"
       "gitleaks"
+      "golangci-lint"
       "graphviz"
       "kind"
       "opa"
+      "opencode"
       "opensc"
       "openssl"
       "qemu"
@@ -49,6 +51,7 @@
     ];
     taps = [
       "chainguard-dev/tap"
+      "anomalyco/tap"
     ];
   };
 

@@ -5,9 +5,6 @@
   };
 in {
   imports = [
-    # Include NixOS-WSL modules
-    <nixos-wsl/modules>
-
     ./configuration.nix
 
     ../../settings/nixos
