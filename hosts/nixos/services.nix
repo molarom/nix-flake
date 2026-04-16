@@ -16,6 +16,9 @@
       enable = true;
     };
 
+    # Disable pulseaudio
+    pulseaudio.enable = false;
+
     # Enable sound with pipewire.
     pipewire = {
       enable = true;

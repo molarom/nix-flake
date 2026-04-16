@@ -14,7 +14,7 @@
     containerd
     docker-compose
     gnupg
-    neofetch
+    fastfetch
     openssl
     parallel
     pcsctools
@@ -64,7 +64,6 @@
   };
 
   # Sound settings
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   # Time zone
