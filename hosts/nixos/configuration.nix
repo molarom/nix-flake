@@ -2,7 +2,6 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    #./k3s.nix
   ];
 
   # System packages
@@ -71,7 +70,7 @@
   # Time zone
   time = {
     hardwareClockInLocalTime = true;
-    timeZone = "America/New_York";
+    timeZone = "America/Chicago";
   };
 
   # Select internationalisation properties.
@@ -104,7 +103,6 @@
       enable = true;
     };
     libvirtd.enable = true;
-    # vmware.host.enable = true;
   };
 
   # Before changing this value read the documentation for this option
