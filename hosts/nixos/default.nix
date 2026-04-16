@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  outputs,
+  pkgs,
+  ...
+}: let
   bepperson = {
     name = "bepperson";
     isNormalUser = true;
@@ -24,7 +28,10 @@ in {
     user = bepperson;
   };
 
-  home-manager.users = {
-    "${bepperson.name}" = import ../../home/linux;
+  home-manager.users."${bepperson.name}" = {
+    imports = [
+      outputs.homeManagerModules.default
+      ../../home/linux
+    ];
   };
 }
