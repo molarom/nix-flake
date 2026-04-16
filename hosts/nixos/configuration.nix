@@ -17,7 +17,7 @@
     fastfetch
     openssl
     parallel
-    pcsctools
+    pcsc-tools
     qemu
     sshpass
     virtio-win
