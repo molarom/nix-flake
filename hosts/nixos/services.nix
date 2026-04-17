@@ -1,5 +1,29 @@
 {pkgs, ...}: {
   services = {
+    # Desktop manager
+    desktopManager = {
+      pantheon = {
+        enable = true;
+        extraGSettingsOverrides = ''
+          [io.elementary.terminal.settings]
+          font='Mononoki Nerd Font 10'
+          follow-last-tab=true
+        '';
+        extraGSettingsOverridePackages = [
+          pkgs.pantheon.elementary-terminal
+        ];
+      };
+    };
+
+    # Enable Ollama
+    ollama = {
+      enable = true;
+      package = pkgs.ollama-rocm;
+      user = "ollama";
+      group = "ollama";
+      openFirewall = true;
+    };
+
     # Enable the OpenSSH daemon.
     openssh = {
       enable = true;
@@ -41,19 +65,6 @@
       };
       displayManager = {
         lightdm.enable = true;
-      };
-      desktopManager = {
-        pantheon = {
-          enable = true;
-          extraGSettingsOverrides = ''
-            [io.elementary.terminal.settings]
-            font='Mononoki Nerd Font 10'
-            follow-last-tab=true
-          '';
-          extraGSettingsOverridePackages = [
-            pkgs.pantheon.elementary-terminal
-          ];
-        };
       };
     };
   };
