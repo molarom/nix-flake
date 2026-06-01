@@ -26,7 +26,7 @@
             },
           }
         }
-      )"
+      })"
       "lsp.enable('basedpyright')"
       "lsp.enable('ts_ls')"
     ];

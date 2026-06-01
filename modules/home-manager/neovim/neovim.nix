@@ -118,26 +118,6 @@ in {
         };
       }
       {
-        "./.config/nvim/init.lua" = {
-          text = ''
-            local csName = "${cfg.colorscheme}"
-
-            require("config")
-            require("plugin-loader")
-
-            local ok, _ = pcall(require, "plugins.themes." .. csName)
-            if(not ok) then
-              error("Unable to load theme: " .. csName .. " double check the lua/plugins/themes module.")
-            else
-              vim.cmd.colorscheme(csName)
-            end
-
-            vim.opt.runtimepath:prepend("${treesitter-parsers}")
-            vim.opt.runtimepath:prepend("${telescope-fzf}")
-          '';
-        };
-      }
-      {
         # -- Formatting
         "${nvim_plugins_dir}/comform.lua" = {
           text = ''
@@ -345,7 +325,7 @@ in {
         "typescriptreact = { 'eslint_d' }"
         "go = { 'golangcilint' }"
         "nix = { 'nix' }"
-        "c = { 'clang-tidy' }"
+        "c = { 'clangtidy' }"
       ];
       description = "additional lines to pass to 'lint.setup()'";
     };
@@ -376,11 +356,12 @@ in {
     defaultEditor = lib.mkDefault true;
     viAlias = lib.mkDefault true;
     vimAlias = lib.mkDefault true;
+    withRuby = lib.mkDefault true;
+    withPython3 = lib.mkDefault true;
     extraPackages =
       [
         pkgs.alejandra # Nix formatter
         pkgs.nixd # Nix lauguage server
-        pkgs.clang-tools
         pkgs.fzf
         pkgs.lua-language-server
         pkgs.stylua
@@ -392,5 +373,21 @@ in {
       telescope-fzf
       treesitterWithGrammars
     ];
+    initLua = ''
+      local csName = "${cfg.colorscheme}"
+
+      require("config")
+      require("plugin-loader")
+
+      local ok, _ = pcall(require, "plugins.themes." .. csName)
+      if(not ok) then
+        error("Unable to load theme: " .. csName .. " double check the lua/plugins/themes module.")
+      else
+        vim.cmd.colorscheme(csName)
+      end
+
+      vim.opt.runtimepath:prepend("${treesitter-parsers}")
+      vim.opt.runtimepath:prepend("${telescope-fzf}")
+    '';
   };
 }

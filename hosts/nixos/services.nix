@@ -19,9 +19,14 @@
     ollama = {
       enable = true;
       package = pkgs.ollama-rocm;
+      host = "0.0.0.0";
+      loadModels = [
+        "gemma4:e4b"
+      ];
       user = "ollama";
       group = "ollama";
       openFirewall = true;
+      syncModels = true;
     };
 
     # Enable the OpenSSH daemon.

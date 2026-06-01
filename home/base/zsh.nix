@@ -7,7 +7,10 @@
     };
     initContent = ''
       autoload -Uz add-zsh-hook
-      export PATH=$PATH:/opt/homebrew/bin:$HOME/go/bin
+      export PATH=$PATH:/opt/homebrew/bin:$HOME/go/bin:$HOME/.local/bin
+      export DISABLE_TELEMETRY=1
+      export DISABLE_FEEDBACK_COMMAND=1
+      export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1
     '';
     plugins = [
       {

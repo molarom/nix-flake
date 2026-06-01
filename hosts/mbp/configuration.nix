@@ -30,17 +30,20 @@
 
   homebrew = {
     brews = [
-      "kind"
+      "cmake"
       "golangci-lint"
+      "kind"
+      "llvm"
       "ollama"
       "opencode"
       "openssl"
     ];
     casks = [
       "claude"
+      "claude-code"
       "docker-desktop"
-      "discord"
       "spotify"
+      "visual-studio-code"
     ];
     taps = [
       "anomalyco/tap"

@@ -14,9 +14,10 @@
   # Homebrew programs
   homebrew = {
     brews = [
+      "anomalyco/tap/opencode"
       "bruno-cli"
       "cairo"
-      "chainctl"
+      "crane"
       "detect-secrets"
       "gitleaks"
       "golangci-lint"
@@ -26,13 +27,19 @@
       "opencode"
       "opensc"
       "openssl"
-      "qemu"
+      "pgcli"
+      "pgformatter"
       "pinentry-mac"
       "pkg-config"
       "postgresql@16"
       "pre-commit"
+      "qemu"
+      "stripe"
+      "sqlfluff"
       "swtpm"
+      "tilt"
       "trivy"
+      "uv"
       "wget"
       "yamllint"
       "ykman"
@@ -42,15 +49,13 @@
       "bruno"
       "coderabbit"
       "cursor"
-      "cursor-cli"
       "docker-desktop"
       "figma"
-      "slack"
       "notion"
+      "slack"
       "zoom"
     ];
     taps = [
-      "chainguard-dev/tap"
       "anomalyco/tap"
     ];
   };

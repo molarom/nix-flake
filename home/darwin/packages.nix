@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   home = {
     packages = with pkgs; [
-      cmake
       gcc
       git-lfs
       gnumake
@@ -17,9 +16,7 @@
       tree
       trivy
       unixtools.watch
-      (pkgs.python313.withPackages (p: [
-        p.pylatexenc # render-markdown.nvim
-      ]))
+      uv
       (pkgs.texliveBasic.withPackages (p: [
         p.acrotex
         p.conv-xkv
