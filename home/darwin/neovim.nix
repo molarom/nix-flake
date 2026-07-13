@@ -15,6 +15,7 @@
     extraTSParsers = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
       rust
       svelte
+      scss
     ];
     lspConfig = [
       "lsp.enable('ts_ls')"

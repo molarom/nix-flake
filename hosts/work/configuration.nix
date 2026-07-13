@@ -47,13 +47,11 @@
     ];
     casks = [
       "bruno"
-      "coderabbit"
       "cursor"
       "docker-desktop"
-      "figma"
+      "flameshot"
       "notion"
       "slack"
-      "zoom"
     ];
     taps = [
       "anomalyco/tap"

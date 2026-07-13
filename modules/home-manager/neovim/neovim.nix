@@ -54,6 +54,7 @@
         p.gitignore
         p.go
         p.gomod
+        p.html
         p.javascript
         p.json
         p.jq
@@ -82,6 +83,7 @@
       # Copy ecma and jsx query directories needed for JS/TS inheritance
       cp -r ${pkgs.vimPlugins.nvim-treesitter}/runtime/queries/ecma $out/queries/
       cp -r ${pkgs.vimPlugins.nvim-treesitter}/runtime/queries/jsx $out/queries/
+      cp -r ${pkgs.vimPlugins.nvim-treesitter}/runtime/queries/html_tags $out/queries/
     '';
   };
 in {
@@ -300,6 +302,7 @@ in {
         "typescript = { 'prettierd' }"
         "javascriptreact = { 'prettierd' }"
         "typescriptreact = { 'prettierd' }"
+        "svelte = { 'prettierd' }"
         "markdown = { 'prettierd', 'injected' }"
         "css = { 'prettierd' }"
         "html = { 'djlint', 'prettierd' }"
@@ -308,6 +311,7 @@ in {
         "nix = { 'alejandra' }"
         "lua = { 'stylua' }"
         "c = { 'clang-format' }"
+        "cpp = { 'clang-format' }"
         "go = { 'golangci-lint', 'injected' }"
         "sql = { 'pg_format' }"
         "python = { 'ruff_fix', 'ruff_format', 'ruff_organize_imports' }"
@@ -358,6 +362,7 @@ in {
     vimAlias = lib.mkDefault true;
     withRuby = lib.mkDefault true;
     withPython3 = lib.mkDefault true;
+    withNodeJs = lib.mkDefault true;
     extraPackages =
       [
         pkgs.alejandra # Nix formatter

@@ -37,6 +37,7 @@
       "ollama"
       "opencode"
       "openssl"
+      "sdl2"
     ];
     casks = [
       "claude"
